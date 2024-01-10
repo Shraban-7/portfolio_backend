@@ -8,6 +8,8 @@
   <title>
     Portfolio
   </title>
+  <script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
+
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 

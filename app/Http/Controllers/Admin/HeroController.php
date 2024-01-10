@@ -133,7 +133,7 @@ class HeroController extends Controller
             'sub_title5' => $request->sub_title5,
         ]);
 
-        return redirect()->route('hero.manage')->with('success', 'hero update successfully');
+        return redirect()->back()->with('success', 'hero update successfully');
     }
 
     /**

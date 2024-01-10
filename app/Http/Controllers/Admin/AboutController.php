@@ -125,7 +125,7 @@ class AboutController extends Controller
             'description' => $request->description,
         ]);
 
-        return redirect()->route('about.manage')->with('success','about update successfully');
+        return redirect()->back()->with('success','about update successfully');
     }
 
     /**

@@ -29,7 +29,7 @@
                         <div class="mb-4">
                             <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
                                 Description</label>
-                            <textarea id="description" name="description"
+                            <textarea id="editor" name="description"
                                 class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 required>
                                 {{ old('description', $about->description) }}
@@ -81,5 +81,11 @@
                 reader.readAsDataURL(file);
             }
         }
+
+        ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
     </script>
 @endsection

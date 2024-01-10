@@ -29,8 +29,8 @@
                         <div class="mb-4">
                             <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
                                 Description</label>
-                            <textarea id="description" name="description"
-                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            <textarea id="editor" cols="30" rows="10" name="description"
+
                                 required>
                             </textarea>
                         </div>
@@ -62,7 +62,7 @@
                         <div class="mb-4">
                             <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
                               Meat  Description (optional)</label>
-                            <textarea id="description" name="meta_desc"
+                            <textarea id="editor2" name="meta_desc"
                                 class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                >
                             </textarea>
@@ -190,5 +190,16 @@
                 reader.readAsDataURL(file);
             }
         }
+
+        ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+        ClassicEditor
+        .create( document.querySelector( '#editor2' ) )
+        .catch( error => {
+            console.error( error );
+        } );
     </script>
 @endsection

@@ -30,12 +30,18 @@
                             <label for="name" class="mb-3 text-gray-700 block font-medium text-black dark:text-white">
                                 Description
                             </label>
-                            <textarea id="description" name="description"
+                            <textarea id="editor" cols="30" name="description"
                                 class="w-full px-4 py-2 border-stroke bg-transparent font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                required>
-                                {{ old('description', $service->description) }}
+                                required >
+                                {{ trim(old('description', $service->description)) }}
                             </textarea>
+
                         </div>
+                        {{-- <div>
+
+                            <textarea name="" id="" cols="30" rows="10" class="border w-full">{{ trim(old('description', $service->description)) }}
+                            </textarea>
+                        </div> --}}
 
                         <div class="mb-2">
                             <img class="w-16 h-16 rounded-full object-cover" alt="Image"
@@ -69,7 +75,7 @@
                         <div class="mb-4">
                             <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
                                 Meat Description (optional)</label>
-                            <textarea id="description" name="meta_desc"
+                            <textarea id="editor2" name="meta_desc"
                                 class="w-full px-2 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
                                {{ old('meta_desc', $service->meta_desc) }}
                             </textarea>
@@ -105,5 +111,16 @@
                 reader.readAsDataURL(file);
             }
         }
+
+        ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+        ClassicEditor
+        .create( document.querySelector( '#editor2' ) )
+        .catch( error => {
+            console.error( error );
+        } );
     </script>
 @endsection
