@@ -67,9 +67,19 @@ class PortfolioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function is_active(string $id)
     {
-        //
+        $portfolio = Portfolio::findOrFail($id);
+        if ($portfolio->status==0) {
+            $portfolio->status=1;
+            $portfolio->save();
+        }
+        else{
+            $portfolio->status=0;
+            $portfolio->save();
+        }
+
+        return redirect()->route('portfolio.manage')->with('success','service update successfully');
     }
 
     /**

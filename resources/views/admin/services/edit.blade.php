@@ -27,14 +27,16 @@
                                 required>
                         </div>
                         <div class="mb-4">
-                            <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
-                                Description</label>
+                            <label for="name" class="mb-3 text-gray-700 block font-medium text-black dark:text-white">
+                                Description
+                            </label>
                             <textarea id="description" name="description"
-                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                class="w-full px-4 py-2 border-stroke bg-transparent font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 required>
                                 {{ old('description', $service->description) }}
                             </textarea>
                         </div>
+
                         <div class="mb-2">
                             <img class="w-16 h-16 rounded-full object-cover" alt="Image"
                                 src="{{ asset($service->image) }}">
@@ -49,6 +51,28 @@
                                 <img id="image-preview" class="hidden w-16 h-16 rounded-full object-cover"
                                     alt="Image Preview">
                             </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
+                                Meta Title (optional)</label>
+                            <input type="text" id="name" name="meta_title"
+                                value="{{ old('meta_title', $service->meta_title) }}"
+                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                        </div>
+                        <div class="mb-4">
+                            <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
+                                Meta Tag (optonal)</label>
+                            <input type="text" id="name" name="meta_tag"
+                                value="{{ old('meta_tag', $service->meta_tag) }}"
+                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                        </div>
+                        <div class="mb-4">
+                            <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
+                                Meat Description (optional)</label>
+                            <textarea id="description" name="meta_desc"
+                                class="w-full px-2 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                               {{ old('meta_desc', $service->meta_desc) }}
+                            </textarea>
                         </div>
                         <div>
                             <button type="submit"

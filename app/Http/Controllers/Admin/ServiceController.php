@@ -31,7 +31,7 @@ class ServiceController extends Controller
 
         // return "hi";
 
-       
+
     }
 
     /**
@@ -61,6 +61,10 @@ class ServiceController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'image' => $image4Url,
+            'meta_title'=>$request->meta_title,
+            'meta_tag'=>$request->meta_tag,
+            'meta_desc'=>$request->meta_desc,
+
         ]);
 
         return redirect()->back()->with('success','service save successfully');
@@ -69,9 +73,19 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function is_active(string $id)
     {
-        //
+        $service = Service::findOrFail($id);
+        if ($service->status==0) {
+            $service->status=1;
+            $service->save();
+        }
+        else{
+            $service->status=0;
+            $service->save();
+        }
+
+        return redirect()->route('service.manage')->with('success','service update successfully');
     }
 
     /**
@@ -120,6 +134,9 @@ class ServiceController extends Controller
         $service->update([
             'title' => $request->title,
             'description' => $request->description,
+            'meta_title'=>$request->meta_title,
+            'meta_tag'=>$request->meta_tag,
+            'meta_desc'=>$request->meta_desc,
         ]);
 
         return redirect()->route('service.manage')->with('success','service update successfully');

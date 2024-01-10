@@ -9,16 +9,17 @@ use App\Http\Controllers\Admin\HeroController;
 
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\SkillController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\PortfolioController;
+use App\Http\Controllers\Admin\SocialIconController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\PersonalInfoController;
-use App\Http\Controllers\Admin\SocialIconController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// })->name('home');
+Route::get('/', function () {
+    return '';
+})->name('home');
 
 Route::get('/dashboard', function () {
 
@@ -34,6 +35,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('service/manage/',[ServiceController::class,'index'])->name('service.manage');
     Route::post('service/store/',[ServiceController::class,'store'])->name('service.store');
+    Route::get('service/status/{service}',[ServiceController::class,'is_active'])->name('service.status');
     Route::get('service/edit/{service}',[ServiceController::class,'edit'])->name('service.edit');
     Route::post('service/update/{service}',[ServiceController::class,'update'])->name('service.update');
     Route::get('service/delete/{service}',[ServiceController::class,'destroy'])->name('service.delete');
@@ -47,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
     // portfolio
     Route::get('portfolio/manage/',[PortfolioController::class,'index'])->name('portfolio.manage');
     Route::post('portfolio/store/',[PortfolioController::class,'store'])->name('portfolio.store');
+    Route::get('portfolio/status/{portfolio}',[PortfolioController::class,'is_active'])->name('portfolio.status');
     Route::get('portfolio/edit/{portfolio}',[PortfolioController::class,'edit'])->name('portfolio.edit');
     Route::post('portfolio/update/{portfolio}',[PortfolioController::class,'update'])->name('portfolio.update');
     Route::get('portfolio/delete/{portfolio}',[PortfolioController::class,'destroy'])->name('portfolio.delete');
@@ -88,10 +91,14 @@ Route::middleware(['auth'])->group(function () {
      Route::get('social_icon/edit/{social_icon}',[SocialIconController::class,'edit'])->name('social_icon.edit');
      Route::post('social_icon/update/{social_icon}',[SocialIconController::class,'update'])->name('social_icon.update');
      Route::get('social_icon/delete/{social_icon}',[SocialIconController::class,'destroy'])->name('social_icon.delete');
+
+     //contact
+     Route::get('contact/manage/',[ContactController::class,'index'])->name('contact.manage');
+
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/user_dashboard', [ProfileController::class, 'edit'])->name('profile');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });

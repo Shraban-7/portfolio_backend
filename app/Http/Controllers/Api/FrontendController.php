@@ -46,7 +46,7 @@ class FrontendController extends Controller
 
         $data['skills']= SkillResource::collection($skills);
 
-        $services = Service::orderBy('id','DESC')->get();
+        $services = Service::where('status',1)->orderBy('id','DESC')->take(6)->get();
 
         $data['services']= ServiceResource::collection($services);
 
@@ -54,7 +54,7 @@ class FrontendController extends Controller
 
         $data['$achievement_counter'] = CounterResource::collection($achievement_counter);
 
-        $portfolios = Portfolio::orderBy('id','DESC')->take(6)->get();
+        $portfolios = Portfolio::where('status',1)->orderBy('id','DESC')->take(6)->get();
 
         $data['portfolios'] = PortfolioResource::collection($portfolios);
 
@@ -72,4 +72,5 @@ class FrontendController extends Controller
 
         return json_encode($data);
     }
+
 }

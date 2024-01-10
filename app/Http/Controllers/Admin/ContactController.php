@@ -13,7 +13,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts= Contact::all();
+        $contacts = Contact::orderBy('created_at', 'desc')->paginate(20);
 
         return view('admin.contact.index',compact('contacts'));
     }
@@ -40,7 +40,7 @@ class ContactController extends Controller
 
         Contact::create($request->all());
 
-        return redirect()->route('contact.manage');
+        return redirect()->route('home')->with('success','message send successfully');
     }
 
     /**

@@ -20,9 +20,9 @@ class ProfileController extends Controller
 
     public function edit(Request $request)
     {
-        
+
         $user = $request->user();
-        return "ok";
+        return view('profile.edit',compact('user'));
     }
 
     /**

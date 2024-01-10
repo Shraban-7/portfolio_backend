@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Api\FrontendController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,4 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['namespace' => 'Api', 'middleware' => ['api'], 'prefix' => 'v1'],function () {
     Route::get('/portfolio', [FrontendController::class, 'api']);
+    Route::post('/contact', [ContactController::class, 'store']);
 });
