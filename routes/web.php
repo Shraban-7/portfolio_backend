@@ -1,15 +1,20 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\DeptController;
-use App\Http\Controllers\DocsController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
-use App\Models\Docs;
+
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\HeroController;
+
+use App\Http\Controllers\Admin\AboutController;
+use App\Http\Controllers\Admin\SkillController;
+use App\Http\Controllers\Admin\CounterController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\PortfolioController;
+use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\PersonalInfoController;
+use App\Http\Controllers\Admin\SocialIconController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -17,70 +22,78 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', function () {
 
-    $user_count=User::count();
-    $document_count=Docs::count();
-    return view('layouts.dashboard',compact('user_count','document_count'));
+
+    return view('admin.dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
-    Route::get('admin/document/list', [DocsController::class, 'index'])->name('docs.list');
-    Route::get('admin/document/create', [DocsController::class, 'create'])->name('docs.create');
-    Route::post('document/store', [DocsController::class, 'store'])->name('docs.store');
-    Route::get('admin/document/create/{document}', [DocsController::class, 'edit'])->name('docs.edit');
-    Route::get('document/show/{document}', [DocsController::class, 'show'])->name('docs.show');
-    Route::post('admin/document/update/{document}', [DocsController::class, 'update'])->name('docs.update');
-    Route::get('admin/document/delete/{document}', [DocsController::class, 'destroy'])->name('docs.delete');
+    // Route::resource('Service',ServiceController::class);
 
-    Route::get('department/list', [DeptController::class, 'index'])->name('department.list');
-    Route::get('department/create', [DeptController::class, 'create'])->name('department.create');
-    Route::post('department/store', [DeptController::class, 'store'])->name('department.store');
-    Route::get('department/edit/{department}', [DeptController::class, 'edit'])->name('department.edit');
-    Route::post('department/update/{department}', [DeptController::class, 'update'])->name('department.update');
-    Route::get('department/delete/{department}', [DeptController::class, 'destroy'])->name('department.delete');
+    //service
 
-    Route::get('user/list', [UserController::class, 'index'])->name('user.list');
-    Route::get('user/create', [UserController::class, 'create'])->name('user.create');
-    Route::post('user/store', [UserController::class, 'store'])->name('user.store');
-    Route::get('user/delete/{user}', [UserController::class, 'destroy'])->name('user.delete');
-    Route::get('user/edit/{user}', [UserController::class, 'edit'])->name('user.edit');
-    Route::patch('user/update/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::get('service/manage/',[ServiceController::class,'index'])->name('service.manage');
+    Route::post('service/store/',[ServiceController::class,'store'])->name('service.store');
+    Route::get('service/edit/{service}',[ServiceController::class,'edit'])->name('service.edit');
+    Route::post('service/update/{service}',[ServiceController::class,'update'])->name('service.update');
+    Route::get('service/delete/{service}',[ServiceController::class,'destroy'])->name('service.delete');
 
-    Route::get('permission/list', [PermissionController::class, 'index'])->name('permission.list');
-// Route::get('permission/create',[PermissionController::class,'create'])->name('permission.create');
-    Route::get('permission/edit/{permission}', [PermissionController::class, 'edit'])->name('permission.edit');
-    Route::post('permission/store', [PermissionController::class, 'store'])->name('permission.store');
-    Route::post('permission/update/{permission}', [PermissionController::class, 'update'])->name('permission.update');
-    Route::get('permission/delete/{permission}', [PermissionController::class, 'destroy'])->name('permission.delete');
+    // Skill
+    Route::get('skill/manage/',[SkillController::class,'index'])->name('skill.manage');
+    Route::post('skill/store/',[SkillController::class,'store'])->name('skill.store');
+    Route::get('skill/edit/{service}',[SkillController::class,'edit'])->name('skill.edit');
+    Route::post('skill/update/{service}',[SkillController::class,'update'])->name('skill.update');
+    Route::get('skill/delete/{service}',[SkillController::class,'destroy'])->name('skill.delete');
+    // portfolio
+    Route::get('portfolio/manage/',[PortfolioController::class,'index'])->name('portfolio.manage');
+    Route::post('portfolio/store/',[PortfolioController::class,'store'])->name('portfolio.store');
+    Route::get('portfolio/edit/{portfolio}',[PortfolioController::class,'edit'])->name('portfolio.edit');
+    Route::post('portfolio/update/{portfolio}',[PortfolioController::class,'update'])->name('portfolio.update');
+    Route::get('portfolio/delete/{portfolio}',[PortfolioController::class,'destroy'])->name('portfolio.delete');
+    // hero
+    Route::get('hero/manage/',[HeroController::class,'index'])->name('hero.manage');
+    Route::post('hero/store/',[HeroController::class,'store'])->name('hero.store');
+    Route::get('hero/edit/{hero}',[HeroController::class,'edit'])->name('hero.edit');
+    Route::post('hero/update/{hero}',[HeroController::class,'update'])->name('hero.update');
+    Route::get('hero/delete/{hero}',[HeroController::class,'destroy'])->name('hero.delete');
+    // about
+    Route::get('about/manage/',[AboutController::class,'index'])->name('about.manage');
+    Route::post('about/store/',[AboutController::class,'store'])->name('about.store');
+    Route::get('about/edit/{about}',[AboutController::class,'edit'])->name('about.edit');
+    Route::post('about/update/{about}',[AboutController::class,'update'])->name('about.update');
+    Route::get('about/delete/{about}',[AboutController::class,'destroy'])->name('about.delete');
+    // counter
+    Route::get('counter/manage/',[CounterController::class,'index'])->name('counter.manage');
+    Route::post('counter/store/',[CounterController::class,'store'])->name('counter.store');
+    Route::get('counter/edit/{counter}',[CounterController::class,'edit'])->name('counter.edit');
+    Route::post('counter/update/{counter}',[CounterController::class,'update'])->name('counter.update');
+    Route::get('counter/delete/{counter}',[CounterController::class,'destroy'])->name('counter.delete');
 
-    Route::get('role/create', [RoleController::class, 'create'])->name('role.create');
-    Route::get('role/edit/{role}', [RoleController::class, 'edit'])->name('role.edit');
-    Route::post('role/store', [RoleController::class, 'store'])->name('role.store');
-    Route::post('role/update/{role}', [RoleController::class, 'update'])->name('role.update');
-    Route::get('role/delete/{role}', [RoleController::class, 'destroy'])->name('role.delete');
+    // personal info
+    Route::get('personal_info/create/',[PersonalInfoController::class,'create'])->name('personal_info.create');
+    Route::post('personal_info/store/',[PersonalInfoController::class,'store'])->name('personal_info.store');
+    Route::get('personal_info/edit/{personal_info}',[PersonalInfoController::class,'edit'])->name('personal_info.edit');
+    Route::post('personal_info/update/{personal_info}',[PersonalInfoController::class,'update'])->name('personal_info.update');
 
+     // testimonial
+     Route::get('testimonial/manage/',[TestimonialController::class,'index'])->name('testimonial.manage');
+     Route::post('testimonial/store/',[TestimonialController::class,'store'])->name('testimonial.store');
+     Route::get('testimonial/edit/{testimonial}',[TestimonialController::class,'edit'])->name('testimonial.edit');
+     Route::post('testimonial/update/{testimonial}',[TestimonialController::class,'update'])->name('testimonial.update');
+     Route::get('testimonial/delete/{testimonial}',[TestimonialController::class,'destroy'])->name('testimonial.delete');
 
-    // Route::resource('category',CategoryController::class);
-
-    Route::get('category/create/',[CategoryController::class,'create'])->name('category.create');
-    Route::post('category/store/',[CategoryController::class,'store'])->name('category.store');
-    Route::get('category/edit/{category}',[CategoryController::class,'edit'])->name('category.edit');
-    Route::post('category/update/{category}',[CategoryController::class,'update'])->name('category.update');
-    Route::get('category/delete/{category}',[CategoryController::class,'destroy'])->name('category.delete');
-
+     // social_icon
+     Route::get('social_icon/manage/',[SocialIconController::class,'index'])->name('social_icon.manage');
+     Route::post('social_icon/store/',[SocialIconController::class,'store'])->name('social_icon.store');
+     Route::get('social_icon/edit/{social_icon}',[SocialIconController::class,'edit'])->name('social_icon.edit');
+     Route::post('social_icon/update/{social_icon}',[SocialIconController::class,'update'])->name('social_icon.update');
+     Route::get('social_icon/delete/{social_icon}',[SocialIconController::class,'destroy'])->name('social_icon.delete');
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/user_dashboard', [ProfileController::class, 'edit'])->name('profile');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('user/document/create', [DocsController::class, 'createByUser'])->name('docs.create.user');
-    Route::get('document/download/{document}', [DocsController::class, 'download'])->name('docs.download');
-    Route::get('user/document/list', [DocsController::class, 'list_documents'])->name('user.docs.list');
-    Route::get('document/show/{document}', [DocsController::class, 'show'])->name('docs.show');
-    Route::get('document/delete/{document}', [DocsController::class, 'destroy'])->name('docs.delete');
-    Route::post('document/store', [DocsController::class, 'store'])->name('docs.store');
-
 });
 
 require __DIR__ . '/auth.php';

@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('heroes', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
             $table->string('image');
-            $table->string('meta_title')->nullable();
-            $table->string('meta_tag')->nullable();
-            $table->longText('meta_desc')->nullable();
-            $table->boolean('status')->default(1);
+            $table->string('sub_title1')->nullable();
+            $table->string('sub_title2')->nullable();
+            $table->string('sub_title3')->nullable();
+            $table->string('sub_title4')->nullable();
+            $table->string('sub_title5')->nullable();
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('heroes');
     }
 };

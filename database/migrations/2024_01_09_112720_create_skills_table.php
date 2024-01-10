@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('skills', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
-            $table->string('image');
-            $table->string('meta_title')->nullable();
-            $table->string('meta_tag')->nullable();
-            $table->longText('meta_desc')->nullable();
-            $table->boolean('status')->default(1);
+            $table->integer('percent');
             $table->timestamps();
         });
     }
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('skills');
     }
 };
