@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('title')
+    Portfolio Manage
+@endsection
+
+
 @section('content')
 
     <div class="py-12 ">

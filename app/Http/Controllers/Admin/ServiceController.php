@@ -5,19 +5,31 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
 class ServiceController extends Controller
 {
+    protected $user_id;
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (Auth::check()) {
+                $this->user_id = Auth::user()->id;
+            }
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         // $services = Service::with('technologies');
-        $services = Service::all();
+        $services = Service::where('user_id',$this->user_id)->get();
 
         return view('admin.services.index', compact('services'));
 
@@ -42,29 +54,30 @@ class ServiceController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'image' => 'required|mimes:png,jpg,jpeg,svg,gif,webp,avif,apng',
+            // 'image' => 'required|mimes:png,jpg,jpeg,svg,gif,webp,avif,apng',
+            'image' => 'required',
         ]);
 
-        $image = $request->file('image');
-        if ($image) {
-            $manager = new ImageManager(new Driver());
-            $name = hexdec(uniqid()) . '-' . $image->getClientOriginalName();
-            $uploadpath = 'uploads/image/service/';
-            $image4Url = $uploadpath . $name;
-            $img = $manager->read($image->getRealPath());
-            $img = $img->resize(370, 246);
-            $img->toWebp(75)->save($image4Url);
+        // $image = $request->file('image');
+        // if ($image) {
+        //     $manager = new ImageManager(new Driver());
+        //     $name = hexdec(uniqid()) . '-' . $image->getClientOriginalName();
+        //     $uploadpath = 'uploads/image/service/';
+        //     $image4Url = $uploadpath . $name;
+        //     $img = $manager->read($image->getRealPath());
+        //     $img = $img->resize(370, 246);
+        //     $img->toWebp(75)->save($image4Url);
 
-        }
+        // }
 
         Service::create([
+            'user_id'=>$this->user_id,
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $image4Url,
+            'image' => $request->image,
             'meta_title'=>$request->meta_title,
             'meta_tag'=>$request->meta_tag,
             'meta_desc'=>$request->meta_desc,
-
         ]);
 
         return redirect()->back()->with('success','service save successfully');
@@ -107,32 +120,35 @@ class ServiceController extends Controller
         $request->validate([
             'title' => 'nullable',
             'description' => 'nullable',
-            'image' => 'nullable|mimes:png,jpg,jpeg,svg,gif,webp,avif,apng',
+            // 'image' => 'nullable|mimes:png,jpg,jpeg,svg,gif,webp,avif,apng',
+            'image' => 'nullable',
         ]);
 
-        $old_img = $service->image;
+        // $old_img = $service->image;
 
-        $image = $request->file('image');
-        if ($image) {
+        // $image = $request->file('image');
+        // if ($image) {
 
-            if ($old_img) {
-                $oldImagePath = public_path($old_img);
-                if (file_exists($oldImagePath)) {
-                    File::delete($service->image);
-                }
-            }
-            $manager = new ImageManager(new Driver());
-            $name = hexdec(uniqid()) . '-' . $image->getClientOriginalName();
-            $uploadpath = 'uploads/image/service/';
-            $imageUrl = $uploadpath . $name;
-            $img = $manager->read($image->getRealPath());
-            $img = $img->resize(370, 246);
-            $img->toWebp(75)->save($imageUrl);
-            $service->image = $imageUrl;
-        }
+        //     if ($old_img) {
+        //         $oldImagePath = public_path($old_img);
+        //         if (file_exists($oldImagePath)) {
+        //             File::delete($service->image);
+        //         }
+        //     }
+        //     $manager = new ImageManager(new Driver());
+        //     $name = hexdec(uniqid()) . '-' . $image->getClientOriginalName();
+        //     $uploadpath = 'uploads/image/service/';
+        //     $imageUrl = $uploadpath . $name;
+        //     $img = $manager->read($image->getRealPath());
+        //     $img = $img->resize(370, 246);
+        //     $img->toWebp(75)->save($imageUrl);
+        //     $service->image = $imageUrl;
+        // }
 
         $service->update([
+            'user_id'=>$this->user_id,
             'title' => $request->title,
+            'image'=>$request->image,
             'description' => $request->description,
             'meta_title'=>$request->meta_title,
             'meta_tag'=>$request->meta_tag,

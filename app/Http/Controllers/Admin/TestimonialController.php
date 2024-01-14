@@ -5,18 +5,30 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
 class TestimonialController extends Controller
 {
+
+    protected $user_id;
+
+    public function __construct()
+    {
+        // Check if the user is authenticated before accessing the ID
+        $this->middleware(function ($request, $next) {
+            $this->user_id = Auth::id(); // Use Auth::id() to get the authenticated user ID
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $testimonials = Testimonial::orderBy('id','DESC')->get();
+        $testimonials = Testimonial::where('user_id',$this->user_id)->orderBy('id','DESC')->get();
         return view('admin.testimonial.index',compact('testimonials'));
     }
 
@@ -45,17 +57,18 @@ class TestimonialController extends Controller
             $manager = new ImageManager(new Driver());
             $name = hexdec(uniqid()) . '-' . $image->getClientOriginalName();
             $uploadpath = 'uploads/image/testimonial/';
-            if (!file_exists($uploadpath)) {
-                mkdir($uploadpath, 0755, true);
-            }
+            $uploadpath1 = 'cv/uploads/image/testimonial/';
+
             $image4Url = $uploadpath . $name;
+            $image4Url1 = $uploadpath1 . $name;
             $img = $manager->read($image->getRealPath());
-            $img = $img->resize(370, 246);
-            $img->toWebp(75)->save($image4Url);
+            // $img = $img->resize(370, 246);
+            $img->toWebp(90)->save($image4Url1);
 
         }
 
         Testimonial::create([
+            'user_id'=>$this->user_id,
             'name'=>$request->name,
             'designation'=>$request->designation,
             'description'=>$request->description,
@@ -111,15 +124,18 @@ class TestimonialController extends Controller
             $manager = new ImageManager(new Driver());
             $name = hexdec(uniqid()) . '-' . $image->getClientOriginalName();
             $uploadpath = 'uploads/image/testimonial/';
+            $uploadpath1 = 'cv/uploads/image/testimonial/';
 
             $imageUrl = $uploadpath . $name;
+            $imageUrl1 = $uploadpath1 . $name;
             $img = $manager->read($image->getRealPath());
-            $img = $img->resize(370, 246);
-            $img->toWebp(75)->save($imageUrl);
+            // $img = $img->resize(370, 246);
+            $img->toWebp(90)->save($imageUrl1);
             $testimonial->image = $imageUrl;
         }
 
         $testimonial->update([
+            'user_id'=>$this->user_id,
             'name'=>$request->name,
             'designation'=>$request->designation,
             'description'=>$request->description,

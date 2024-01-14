@@ -5,18 +5,31 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Portfolio;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
 class PortfolioController extends Controller
 {
+
+    protected $user_id;
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (Auth::check()) {
+                $this->user_id = Auth::user()->id;
+            }
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $portfolios = Portfolio::all();
+        $portfolios = Portfolio::where('user_id',$this->user_id)->get();
 
         return view('admin.portfolios.index', compact('portfolios'));
     }
@@ -45,17 +58,19 @@ class PortfolioController extends Controller
             $manager = new ImageManager(new Driver());
             $name = hexdec(uniqid()) . '-' . $image->getClientOriginalName();
             $uploadpath = 'uploads/image/portfolio/';
-            if (!file_exists($uploadpath)) {
-                mkdir($uploadpath, 0755, true);
-            }
+            $uploadpath2 = 'cv/uploads/image/portfolio/';
+
             $image4Url = $uploadpath . $name;
+            $image4Url2 = $uploadpath2 . $name;
+            // $image_path= 'cv/'.$image4Url;
             $img = $manager->read($image->getRealPath());
-            $img = $img->resize(370, 246);
-            $img->toWebp(75)->save($image4Url);
+            // $img = $img->resize(370, 246);
+            $img->toWebp(90)->save($image4Url2);
 
         }
 
         Portfolio::create([
+            'user_id'=>$this->user_id,
             'title' => $request->title,
             'image' => $image4Url,
             'link' => $request->link,
@@ -121,12 +136,13 @@ class PortfolioController extends Controller
 
             $imageUrl = $uploadpath . $name;
             $img = $manager->read($image->getRealPath());
-            $img = $img->resize(370, 246);
+            // $img = $img->resize(370, 246);
             $img->toWebp(75)->save($imageUrl);
             $portfolio->image = $imageUrl;
         }
 
         $portfolio->update([
+            'user_id'=>$this->user_id,
             'title' => $request->title,
             'link' => $request->link,
         ]);

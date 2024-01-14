@@ -23,5 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['namespace' => 'Api', 'middleware' => ['api'], 'prefix' => 'v1'],function () {
     Route::get('/portfolio', [FrontendController::class, 'api']);
-    Route::post('/contact', [ContactController::class, 'store']);
+    Route::post('/contact', [ContactController::class, 'store'])->name('contact.save');
 });

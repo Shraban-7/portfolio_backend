@@ -2,12 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\PersonalInfo;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class PersonalInfoController extends Controller
 {
+
+    protected $user_id;
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (Auth::check()) {
+                $this->user_id = Auth::user()->id;
+            }
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
@@ -32,7 +45,7 @@ class PersonalInfoController extends Controller
         $request->validate([
             'full_name'=>'required|max:50',
             'email'=>'required|email',
-            'phone'=>'required|min:14',
+            'phone'=>'required|min:10',
             'address'=>'required',
             'profile'=>'required|max:50',
         ]);
@@ -51,30 +64,51 @@ class PersonalInfoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
-        $personal_info= PersonalInfo::findOrFail($id);
+        $personal_info= PersonalInfo::where('user_id',$this->user_id)->first();
         return view('admin.personal_info.edit',compact('personal_info'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        $personal_info= PersonalInfo::findOrFail($id);
+        $personal_info= PersonalInfo::where('user_id',$this->user_id)->first();
 
         $request->validate([
             'full_name'=>'nullable|max:50',
             'email'=>'nullable|email',
-            'phone'=>'nullable|min:14',
+            'phone'=>'nullable|min:10',
             'address'=>'nullable',
             'profile'=>'nullable|max:50',
         ]);
-        $personal_info->update($request->all());
+
+        if ($personal_info) {
+            $personal_info->update([
+                'user_id'=>$this->user_id,
+                'full_name'=>$request->full_name,
+                'email'=>$request->email,
+                'phone'=>$request->phone,
+                'address'=>$request->address,
+                'profile'=>$request->profile,
+            ]);
+        } else {
+            PersonalInfo::create([
+                'user_id'=>$this->user_id,
+                'full_name'=>$request->full_name,
+                'email'=>$request->email,
+                'phone'=>$request->phone,
+                'address'=>$request->address,
+                'profile'=>$request->profile,
+            ]);
+        }
 
 
-        return redirect()->back()->with('success','personal info update successfully');
+
+
+        return redirect()->back()->with('success','personal info save successfully');
 
     }
 

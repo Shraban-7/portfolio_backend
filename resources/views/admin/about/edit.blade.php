@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('title')
+    About Manage
+@endsection
 @section('content')
 
     <div class="py-12 ">
@@ -17,12 +19,12 @@
                         </div>
                     @endif
                     <h2 class="text-2xl font-semibold mb-4">Update about</h2>
-                    <form action="{{ route('about.update', $about->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('about.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
                             <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
                                 Name</label>
-                            <input type="text" id="name" name="title" value="{{ old('title', $about->title) }}"
+                            <input type="text" id="name" name="title" value="{{ old('title', $about?->title) }}"
                                 class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 required>
                         </div>
@@ -32,13 +34,18 @@
                             <textarea id="editor" name="description"
                                 class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 required>
-                                {{ old('description', $about->description) }}
+                                {{ old('description', $about?->description) }}
                             </textarea>
                         </div>
-                        <div class="mb-2">
-                            <img class="w-16 h-16 rounded-full object-cover" alt="Image"
-                                src="{{ asset($about->image) }}">
-                        </div>
+                        @if ($about)
+                            @if ($about->image)
+                                <div class="mb-2">
+                                    <img class="w-16 h-16 rounded-full object-cover" alt="Image"
+                                        src="{{ asset($about?->image) }}">
+                                </div>
+                            @endif
+                        @endif
+
                         <div class="mb-4">
                             <label for="image"
                                 class="mb-3 text-gray-700 block font-medium text-black dark:text-white">Image</label>
@@ -83,9 +90,9 @@
         }
 
         ClassicEditor
-        .create( document.querySelector( '#editor' ) )
-        .catch( error => {
-            console.error( error );
-        } );
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
     </script>
 @endsection

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Skill Manage
+@endsection
+
 @section('content')
 
     <div class="py-12 ">

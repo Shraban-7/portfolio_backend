@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Service Manage
+@endsection
+
 @section('content')
 
     <div class="py-12 ">
@@ -16,7 +20,7 @@
                             </ul>
                         </div>
                     @endif
-                    <h2 class="text-2xl font-semibold mb-4">Add service</h2>
+                    <h2 class="text-2xl font-semibold mb-4">Add Service</h2>
                     <form action="{{ route('service.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
@@ -36,14 +40,11 @@
                         </div>
                         <div class="mb-4">
                             <label for="image"
-                                class="mb-3 text-gray-700 block font-medium text-black dark:text-white">Image</label>
-                            <input type="file" id="image" name="image" accept="image/*"
-                                onchange="previewImage(this)"
+                                class="mb-3 text-gray-700 block font-medium text-black dark:text-white">Service Icon</label>
+                            <input type="text" id="image" name="image" placeholder="Ex: 'ion-code-working'"
+
                                 class="w-full px-4 py-2 border-stroke bg-transparent font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                            <div class="mt-2">
-                                <img id="image-preview" class="hidden w-16 h-16 rounded-full object-cover"
-                                    alt="Image Preview">
-                            </div>
+                           <small>Choose your service icon class name <a target="_blank" class="text-blue-600" href="https://ionic.io/ionicons/v2">Go here..</a></small>
                         </div>
                         <div class="mb-4">
                             <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">

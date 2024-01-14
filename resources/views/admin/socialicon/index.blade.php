@@ -30,15 +30,15 @@
                             <label for="url" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
                                 Link</label>
                             <input type="url" id="link" name="link"
-                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                >
+                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
                         </div>
                         <div class="mb-4">
                             <label for="icon" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
                                 Icon</label>
-                            <input type="text" id="link" name="icon"
-                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                >
+                            <input type="text" id="link" name="icon" placeholder="Ex: 'ion-code-working'"
+                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                            <small>Choose your  icon class name <a target="_blank" class="text-blue-600"
+                                    href="https://ionic.io/ionicons/v2">Go here..</a></small>
                         </div>
 
 
@@ -90,7 +90,8 @@
 
                                     <td class="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <div class="flex items-center space-x-3.5">
-                                            <a href="{{ route('social_icon.edit', $social_icon->id) }}" class="hover:text-primary">
+                                            <a href="{{ route('social_icon.edit', $social_icon->id) }}"
+                                                class="hover:text-primary">
                                                 <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18"
                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path

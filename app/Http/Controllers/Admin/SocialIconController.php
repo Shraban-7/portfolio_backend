@@ -5,16 +5,28 @@ namespace App\Http\Controllers\Admin;
 use App\Models\SocialIcon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 
 class SocialIconController extends Controller
 {
+
+    protected $user_id;
+
+    public function __construct()
+    {
+        // Check if the user is authenticated before accessing the ID
+        $this->middleware(function ($request, $next) {
+            $this->user_id = Auth::user()->id; // Use Auth::id() to get the authenticated user ID
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $social_icons = SocialIcon::orderBy('id', 'DESC')->get();
+        $social_icons = SocialIcon::where('user_id',$this->user_id)->orderBy('id', 'DESC')->get();
         return view('admin.socialicon.index', compact('social_icons'));
     }
 
@@ -37,9 +49,10 @@ class SocialIconController extends Controller
             'icon' => 'required',
         ]);
 
-
+        // return $this->user_id;
 
         SocialIcon::create([
+            'user_id'=>$this->user_id,
             'title' => $request->title,
             'icon' => $request->icon,
             'link' => $request->link,
@@ -81,6 +94,7 @@ class SocialIconController extends Controller
 
 
         $social_icon->update([
+            'user_id'=>$this->user_id,
             'title' => $request->title,
             'icon' => $request->icon,
             'link' => $request->link,

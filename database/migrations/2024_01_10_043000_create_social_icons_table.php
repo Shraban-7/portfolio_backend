@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('image');
             $table->string('link');
             $table->tinyInteger('status');
+            $table->foreignId('user_id')->nullable()
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

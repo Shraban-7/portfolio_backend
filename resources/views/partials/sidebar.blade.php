@@ -3,8 +3,9 @@
     @click.outside="sidebarToggle = false">
     <!-- SIDEBAR HEADER -->
     <div class="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <a href="{{ route('dashboard') }}">
-            <img src="{{ asset('images/logo/logo.svg') }}" alt="Logo" />
+        <a href="{{ route('dashboard') }}" class="flex text-2xl text-white text-center">
+            {{-- <img src="{{ asset('images/logo/logo.svg') }}" class="w-20" alt="Logo" /> --}}
+            WAF Admin</span>
         </a>
 
         <button class="block lg:hidden" @click.stop="sidebarToggle = !sidebarToggle">
@@ -29,7 +30,7 @@
                     <!-- Menu Item Dashboard -->
                     <li>
                         <a class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-                            href="{{ route('dashboard') }}" 
+                            href="{{ route('dashboard') }}"
                             :class="{
                                 'bg-graydark dark:bg-meta-4': (selected === 'Dashboard') || (page === 'ecommerce' ||
                                     page === 'analytics')
@@ -106,12 +107,12 @@
                             <ul class="mt-4 mb-3 flex flex-col gap-2 pl-6">
                                 <li>
                                     <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                        href="{{ route('hero.edit', 1) }}"
+                                        href="{{ route('hero.edit') }}"
                                         :class="page === 'alerts' && '!text-white'">Hero</a>
                                 </li>
                                 <li>
                                     <a class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                        href="{{ route('about.edit', 1) }}"
+                                        href="{{ route('about.edit') }}"
                                         :class="page === 'buttons' && '!text-white'">About</a>
                                 </li>
                             </ul>
@@ -121,7 +122,7 @@
 
                     <li>
                         <a class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-                            href="{{ route('personal_info.edit', 1) }}"
+                            href="{{ route('personal_info.edit') }}"
                             @click="selected = (selected === 'Profile' ? '':'Profile')"
                             :class="{ 'bg-graydark dark:bg-meta-4': (selected === 'Profile') && (page === 'profile') }"
                             :class="page === 'profile' && 'bg-graydark'">
@@ -135,7 +136,7 @@
                                     fill="" />
                             </svg>
 
-                            Profile
+                            Personal Information
                         </a>
                     </li>
                     <li>
@@ -227,22 +228,7 @@
                             Testimonial
                         </a>
                     </li>
-                    <li>
-                        <a class="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-                            href="{{ route('contact.manage') }}"
-                            @click="selected = (selected === 'Profile' ? '':'Profile')"
-                            :class="{ 'bg-graydark dark:bg-meta-4': (selected === 'Profile') && (page === 'profile') }"
-                            :class="page === 'profile' && 'bg-graydark'">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-                              </svg>
 
-
-
-
-                            Contact
-                        </a>
-                    </li>
                     <!-- Menu Item Profile -->
 
 

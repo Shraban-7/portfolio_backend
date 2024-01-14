@@ -9,17 +9,25 @@ use App\Http\Controllers\Admin\HeroController;
 
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\SkillController;
-use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\PortfolioController;
 use App\Http\Controllers\Admin\SocialIconController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\PersonalInfoController;
+use App\Http\Controllers\Api\FrontendController;
 
 Route::get('/', function () {
-    return '';
-})->name('home');
+    return view('welcome');
+})->name('main');
+
+
+Route::get('cv/{user_name}',[FrontendController::class,'main'] )->name('home');
+
+
+Route::post('contact/',[ContactController::class,'contact'])->name('contact.save');
+
 
 Route::get('/dashboard', function () {
 
@@ -56,14 +64,14 @@ Route::middleware(['auth'])->group(function () {
     // hero
     Route::get('hero/manage/',[HeroController::class,'index'])->name('hero.manage');
     Route::post('hero/store/',[HeroController::class,'store'])->name('hero.store');
-    Route::get('hero/edit/{hero}',[HeroController::class,'edit'])->name('hero.edit');
-    Route::post('hero/update/{hero}',[HeroController::class,'update'])->name('hero.update');
+    Route::get('hero/data',[HeroController::class,'edit'])->name('hero.edit');
+    Route::post('hero/update',[HeroController::class,'update'])->name('hero.update');
     Route::get('hero/delete/{hero}',[HeroController::class,'destroy'])->name('hero.delete');
     // about
     Route::get('about/manage/',[AboutController::class,'index'])->name('about.manage');
     Route::post('about/store/',[AboutController::class,'store'])->name('about.store');
-    Route::get('about/edit/{about}',[AboutController::class,'edit'])->name('about.edit');
-    Route::post('about/update/{about}',[AboutController::class,'update'])->name('about.update');
+    Route::get('about/data',[AboutController::class,'edit'])->name('about.edit');
+    Route::post('about/update',[AboutController::class,'update'])->name('about.update');
     Route::get('about/delete/{about}',[AboutController::class,'destroy'])->name('about.delete');
     // counter
     Route::get('counter/manage/',[CounterController::class,'index'])->name('counter.manage');
@@ -75,8 +83,8 @@ Route::middleware(['auth'])->group(function () {
     // personal info
     Route::get('personal_info/create/',[PersonalInfoController::class,'create'])->name('personal_info.create');
     Route::post('personal_info/store/',[PersonalInfoController::class,'store'])->name('personal_info.store');
-    Route::get('personal_info/edit/{personal_info}',[PersonalInfoController::class,'edit'])->name('personal_info.edit');
-    Route::post('personal_info/update/{personal_info}',[PersonalInfoController::class,'update'])->name('personal_info.update');
+    Route::get('personal_info/edit',[PersonalInfoController::class,'edit'])->name('personal_info.edit');
+    Route::post('personal_info/update',[PersonalInfoController::class,'update'])->name('personal_info.update');
 
      // testimonial
      Route::get('testimonial/manage/',[TestimonialController::class,'index'])->name('testimonial.manage');
@@ -93,7 +101,7 @@ Route::middleware(['auth'])->group(function () {
      Route::get('social_icon/delete/{social_icon}',[SocialIconController::class,'destroy'])->name('social_icon.delete');
 
      //contact
-     Route::get('contact/manage/',[ContactController::class,'index'])->name('contact.manage');
+
 
 });
 

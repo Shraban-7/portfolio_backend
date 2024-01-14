@@ -21,6 +21,10 @@ return new class extends Migration
             $table->string('sub_title4')->nullable();
             $table->string('sub_title5')->nullable();
             $table->boolean('status')->default(0);
+            $table->foreignId('user_id')->nullable()
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

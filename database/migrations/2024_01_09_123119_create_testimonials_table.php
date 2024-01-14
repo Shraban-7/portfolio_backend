@@ -18,6 +18,10 @@ return new class extends Migration
             $table->text('description');
             $table->text('image');
             $table->boolean('status')->default(1);
+            $table->foreignId('user_id')->nullable()
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

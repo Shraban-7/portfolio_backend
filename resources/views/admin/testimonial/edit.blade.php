@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Testimonial Edit
+@endsection
+
 @section('content')
 
     <div class="py-12 ">

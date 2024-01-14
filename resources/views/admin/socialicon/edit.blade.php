@@ -17,19 +17,22 @@
                         </div>
                     @endif
                     <h2 class="text-2xl font-semibold mb-4">Update social_icon</h2>
-                    <form action="{{ route('social_icon.update', $social_icon->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('social_icon.update', $social_icon->id) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
                             <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
                                 Name</label>
-                            <input type="text" id="name" name="title" value="{{ old('title', $social_icon->title) }}"
+                            <input type="text" id="name" name="title"
+                                value="{{ old('title', $social_icon->title) }}"
                                 class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 required>
                         </div>
                         <div class="mb-4">
                             <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
                                 Link</label>
-                            <input type="text" id="name" name="link" value="{{ old('link', $social_icon->link) }}"
+                            <input type="text" id="name" name="link"
+                                value="{{ old('link', $social_icon->link) }}"
                                 class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 required>
                         </div>
@@ -37,9 +40,11 @@
                         <div class="mb-4">
                             <label for="icon" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
                                 Icon</label>
-                            <input type="text" id="link" name="icon" value="{{ old('icon', $social_icon->icon) }}"
-                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                >
+                            <input type="text" id="link" name="icon"
+                                value="{{ old('icon', $social_icon->icon) }}"
+                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                            <small>Choose your icon class name <a target="_blank" class="text-blue-600"
+                                    href="https://ionic.io/ionicons/v2">Go here..</a></small>
                         </div>
                         <div>
                             <button type="submit"

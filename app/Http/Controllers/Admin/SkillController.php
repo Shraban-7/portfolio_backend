@@ -5,15 +5,26 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Skill;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class SkillController extends Controller
 {
+    protected $user_id;
+
+    public function __construct()
+    {
+        // Check if the user is authenticated before accessing the ID
+        $this->middleware(function ($request, $next) {
+            $this->user_id = Auth::id(); // Use Auth::id() to get the authenticated user ID
+            return $next($request);
+        });
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $skills= Skill::all();
+        $skills= Skill::where('user_id',$this->user_id)->get();
         return view('admin.skill.index',compact('skills'));
     }
 
@@ -32,10 +43,14 @@ class SkillController extends Controller
     {
         $request->validate([
             'title'=>'required|max:50',
-            'present'=>'min:1|max:100'
+            'percent'=>'min:1|max:100'
         ]);
 
-        Skill::create($request->all());
+        Skill::create([
+            'user_id'=>$this->user_id,
+            'title'=>$request->title,
+            'percent'=>$request->percent
+        ]);
         return redirect()->route('skill.manage')->with('success','skill save successfully');
     }
 
@@ -64,10 +79,14 @@ class SkillController extends Controller
         $skill = Skill::findOrFail($id);
         $request->validate([
             'title'=>'nullable|max:50',
-            'present'=>'nullable|min:1|max:100'
+            'percent'=>'nullable|min:1|max:100'
         ]);
 
-        $skill->update($request->all());
+        $skill->update([
+            'user_id'=>$this->user_id,
+            'title'=>$request->title,
+            'percent'=>$request->percent
+        ]);
         return redirect()->route('skill.manage')->with('success','skill update successfully');
     }
 

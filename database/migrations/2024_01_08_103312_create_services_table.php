@@ -20,6 +20,10 @@ return new class extends Migration
             $table->string('meta_tag')->nullable();
             $table->longText('meta_desc')->nullable();
             $table->boolean('status')->default(1);
+            $table->foreignId('user_id')->nullable()
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
