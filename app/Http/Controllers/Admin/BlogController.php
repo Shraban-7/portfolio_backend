@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Portfolio;
+use App\Models\Blog;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
-class PortfolioController extends Controller
+class BlogController extends Controller
 {
 
     protected $user_id;
@@ -29,9 +31,11 @@ class PortfolioController extends Controller
      */
     public function index()
     {
-        $portfolios = Portfolio::where('user_id',$this->user_id)->get();
+        $blogs = Blog::where('user_id',$this->user_id)->get();
 
-        return view('admin.portfolios.index', compact('portfolios'));
+        $categories= Category::where('user_id',$this->user_id)->get();
+
+        return view('admin.blog.index', compact('blogs','categories'));
     }
 
     /**
@@ -49,52 +53,48 @@ class PortfolioController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'link'=>'nullable|url',
-            'image' => 'required|mimes:png,jpg,jpeg,svg,gif,webp,avif,apng',
+            'body' => 'required',
+            'image' => 'nullable|mimes:png,jpg,jpeg,svg,gif,webp,avif,apng',
+            // 'image' => 'required',
         ]);
 
         $image = $request->file('image');
         if ($image) {
             $manager = new ImageManager(new Driver());
             $name = hexdec(uniqid()) . '-' . $image->getClientOriginalName();
-            $uploadpath = 'uploads/image/portfolio/';
-            $uploadpath2 = 'cv/uploads/image/portfolio/';
-
+            $uploadpath = 'uploads/image/blog/';
+            $uploadpath1 = 'cv/uploads/image/blog/';
             $image4Url = $uploadpath . $name;
-            $image4Url2 = $uploadpath2 . $name;
-            // $image_path= 'cv/'.$image4Url;
+            $image4Url1 = $uploadpath1 . $name;
             $img = $manager->read($image->getRealPath());
             // $img = $img->resize(370, 246);
-            $img->toWebp(90)->save($image4Url2);
+            $img->toWebp(75)->save($image4Url1);
 
         }
 
-        Portfolio::create([
+        $slug= Str::slug($request->title);
+
+        Blog::create([
             'user_id'=>$this->user_id,
+            'category_id'=>$request->category_id,
             'title' => $request->title,
+            'slug'=>$slug,
+            'body' => $request->body,
             'image' => $image4Url,
-            'link' => $request->link,
+            'meta_title'=>$request->meta_title,
+            'meta_tag'=>$request->meta_tag,
+            'meta_description'=>$request->meta_description,
         ]);
 
-        return redirect()->back()->with('success', 'portfolio save successfully');
+        return redirect()->back()->with('success','blog save successfully');
     }
 
     /**
      * Display the specified resource.
      */
-    public function is_active(string $id)
+    public function show(string $id)
     {
-        $portfolio = Portfolio::findOrFail($id);
-        if ($portfolio->status==0) {
-            $portfolio->status=1;
-            $portfolio->save();
-        }
-        else{
-            $portfolio->status=0;
-            $portfolio->save();
-        }
-
-        return redirect()->route('portfolio.manage')->with('success','service update successfully');
+        //
     }
 
     /**
@@ -102,8 +102,9 @@ class PortfolioController extends Controller
      */
     public function edit(string $id)
     {
-        $portfolio = Portfolio::findOrFail($id);
-        return view('admin.portfolios.edit', compact('portfolio'));
+        $blog = Blog::findOrFail($id);
+        $categories= Category::where('user_id',$this->user_id)->get();
+        return view('admin.blog.edit', compact('blog','categories'));
     }
 
     /**
@@ -111,15 +112,19 @@ class PortfolioController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $portfolio = Portfolio::findOrFail($id);
+        $blog = Blog::findOrFail($id);
 
         $request->validate([
             'title' => 'nullable',
-            'link'=>'nullable|url',
-            'image' => 'nullable|mimes:png,jpg,jpeg,svg,gif,webp,avif,apng',
+            'body' => 'nullable',
+            // 'image' => 'nullable|mimes:png,jpg,jpeg,svg,gif,webp,avif,apng',
+            'image' => 'nullable',
         ]);
 
-        $old_img = 'cv/'. $portfolio->image;
+
+        $imageUrl='';
+
+        $old_img = $blog->image;
 
         $image = $request->file('image');
         if ($image) {
@@ -127,29 +132,38 @@ class PortfolioController extends Controller
             if ($old_img) {
                 $oldImagePath = public_path($old_img);
                 if (file_exists($oldImagePath)) {
-                    File::delete($old_img);
+                    File::delete($blog->image);
                 }
             }
             $manager = new ImageManager(new Driver());
             $name = hexdec(uniqid()) . '-' . $image->getClientOriginalName();
-            $uploadpath = 'uploads/image/portfolio/';
-            $uploadpath2 = 'cv/uploads/image/portfolio/';
-
+            $uploadpath = 'uploads/image/blog/';
+            $uploadpath1 = 'cv/uploads/image/blog/';
             $imageUrl = $uploadpath . $name;
-            $imageUrl1 = $uploadpath2 . $name;
+            $imageUrl1 = $uploadpath1 . $name;
             $img = $manager->read($image->getRealPath());
             // $img = $img->resize(370, 246);
-            $img->toWebp(90)->save($imageUrl1);
-            $portfolio->image = $imageUrl;
+            $img->toWebp(75)->save($imageUrl1);
+            $blog->image = $imageUrl;
         }
 
-        $portfolio->update([
+        $slug= Str::slug($request->title);
+        if ($imageUrl==null) {
+            $imageUrl=$blog->image;
+        }
+        $blog->update([
             'user_id'=>$this->user_id,
+            'category_id'=>$request->category_id,
             'title' => $request->title,
-            'link' => $request->link,
+            'slug'=>$slug,
+            'body' => $request->body,
+            'image' => $imageUrl,
+            'meta_title'=>$request->meta_title,
+            'meta_tag'=>$request->meta_tag,
+            'meta_description'=>$request->meta_description,
         ]);
 
-        return redirect()->route('portfolio.manage')->with('success', 'portfolio update successfully');
+        return redirect()->route('blog.manage')->with('success','blog update successfully');
     }
 
     /**
@@ -157,9 +171,9 @@ class PortfolioController extends Controller
      */
     public function destroy(string $id)
     {
-        $portfolio = Portfolio::findOrFail($id);
-        File::delete($portfolio->image);
-        $portfolio->delete();
-        return redirect()->route('portfolio.manage')->with('warning','portfolio delete permanently');
+        $blog= Blog::findOrFail($id);
+        File::delete('cv/'.$blog->image);
+        $blog->delete();
+        return redirect()->route('service.manage')->with('warning','blog delete permanently');
     }
 }

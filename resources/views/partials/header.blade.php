@@ -37,7 +37,7 @@
         </div>
 
         <div class="ml-auto mr-10">
-            <a href="{{ route('home',Auth::user()->user_name) }}" class="bg-transparent hover:bg-primary-500 text-primary-700 font-semibold hover:text-black py-2 px-4 border border-primary-500 hover:border-primary rounded">Go to CV</a>
+            <a target="_blank" href="{{ route('home',Auth::user()->user_name) }}" class="bg-transparent hover:bg-primary-500 text-primary-700 font-semibold hover:text-black py-2 px-4 border border-primary-500 hover:border-primary rounded">Go to CV</a>
         </div>
 
 
@@ -47,7 +47,7 @@
                 <a class="flex items-center gap-4" href="#" @click.prevent="dropdownOpen = ! dropdownOpen">
                     <span class="hidden text-right lg:block">
                         <span
-                            class="block text-sm font-medium text-black dark:text-white">{{ Auth::user()->user_name }}</span>
+                            class="block text-sm font-medium text-black capitalize dark:text-white">{{ Auth::user()->name }}</span>
 
                     </span>
 

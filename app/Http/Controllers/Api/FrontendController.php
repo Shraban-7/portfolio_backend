@@ -2,27 +2,29 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\AboutResource;
-use App\Http\Resources\ContactInfoResource;
-use App\Http\Resources\CounterResource;
-use App\Http\Resources\HeroResource;
-use App\Http\Resources\PersonalInfoAboutResource;
-use App\Http\Resources\PortfolioResource;
-use App\Http\Resources\ServiceResource;
-use App\Http\Resources\SkillResource;
-use App\Http\Resources\SocialIconResource;
-use App\Http\Resources\TestimonialResource;
-use App\Models\About;
-use App\Models\Counter;
+use App\Models\Blog;
 use App\Models\Hero;
-use App\Models\PersonalInfo;
-use App\Models\Portfolio;
-use App\Models\Service;
+use App\Models\User;
+use App\Models\About;
 use App\Models\Skill;
+use App\Models\Counter;
+use App\Models\Service;
+use App\Models\Category;
+use App\Models\Portfolio;
 use App\Models\SocialIcon;
 use App\Models\Testimonial;
-use App\Models\User;
+use App\Models\PersonalInfo;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\HeroResource;
+use App\Http\Resources\AboutResource;
+use App\Http\Resources\SkillResource;
+use App\Http\Resources\CounterResource;
+use App\Http\Resources\ServiceResource;
+use App\Http\Resources\PortfolioResource;
+use App\Http\Resources\SocialIconResource;
+use App\Http\Resources\ContactInfoResource;
+use App\Http\Resources\TestimonialResource;
+use App\Http\Resources\PersonalInfoAboutResource;
 
 class FrontendController extends Controller
 {
@@ -64,9 +66,34 @@ class FrontendController extends Controller
 
         $data['user_id']= User::where('user_name', $user_name)->first();
 
+        $data['blogs']= Blog::with('category')->where('user_id', $user->id)->orderBy('id','DESC')->take(3)->get();
+
+
+
+
         // return json_encode($data);
 
         return view('frontend.index')->with($data);
+    }
+
+
+    public function blog_single($user_name,$slug)
+    {
+        $user = User::where('user_name', $user_name)->first();
+
+        $data=[];
+
+        $data['blog']=Blog::with('category')->where('user_id',$user->id)->where('slug',$slug)->first();
+
+        $data['personal_info'] = PersonalInfo::where('user_id', $user->id)->first();
+
+        $data['categories']= Category::where('user_id',$user->id)->get();
+
+        $data['blogs']= Blog::where('user_id', $user->id)->orderBy('id','DESC')->take(6)->get();
+
+        $data['user_id']= User::where('user_name', $user_name)->first();
+
+        return view('frontend.blog')->with($data);
     }
 
     public function api($user_name)

@@ -6,6 +6,9 @@ use App\Models\PersonalInfo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class PersonalInfoController extends Controller
 {
@@ -85,7 +88,43 @@ class PersonalInfoController extends Controller
             'profile'=>'nullable|max:50',
         ]);
 
+
         if ($personal_info) {
+
+            $old_img = $personal_info->image;
+        } else {
+            $old_img = '';
+        }
+
+        // $old_img = $personal_info->image;
+
+        $imageUrl = '';
+
+        $image = $request->file('image');
+        if ($image) {
+
+            if ($old_img) {
+                $oldImagePath = public_path($old_img);
+                if (file_exists($oldImagePath)) {
+                    File::delete($personal_info->image);
+                }
+            }
+            $manager = new ImageManager(new Driver());
+            $name = hexdec(uniqid()) . '-' . $image->getClientOriginalName();
+            $uploadpath = 'uploads/image/personal_info/';
+            $uploadpath1 = 'cv/uploads/image/personal_info/';
+            $imageUrl = $uploadpath . $name;
+            $imageUrl1 = $uploadpath1 . $name;
+            $img = $manager->read($image->getRealPath());
+            // $img = $img->resize(370, 246);
+            $img->toWebp(90)->save($imageUrl1);
+        }
+
+        if ($personal_info) {
+
+            if ($imageUrl == null) {
+                $imageUrl = $personal_info->image;
+            }
             $personal_info->update([
                 'user_id'=>$this->user_id,
                 'full_name'=>$request->full_name,
@@ -93,6 +132,8 @@ class PersonalInfoController extends Controller
                 'phone'=>$request->phone,
                 'address'=>$request->address,
                 'profile'=>$request->profile,
+                'image' => $imageUrl,
+                'description' => $request->description,
             ]);
         } else {
             PersonalInfo::create([
@@ -102,6 +143,8 @@ class PersonalInfoController extends Controller
                 'phone'=>$request->phone,
                 'address'=>$request->address,
                 'profile'=>$request->profile,
+                'image' => $imageUrl,
+                'description' => $request->description,
             ]);
         }
 

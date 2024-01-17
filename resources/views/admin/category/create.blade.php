@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Testimonal Manage
+    category Manage
 @endsection
 
 @section('content')
@@ -20,8 +20,8 @@
                             </ul>
                         </div>
                     @endif
-                    <h2 class="text-2xl font-semibold mb-4 capitalize">Add testimonial</h2>
-                    <form action="{{ route('testimonial.store') }}" method="POST" enctype="multipart/form-data">
+                    <h2 class="text-2xl font-semibold mb-4 capitalize">Add Category</h2>
+                    <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
                             <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
@@ -30,36 +30,9 @@
                                 class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 required>
                         </div>
-                        <div class="mb-4">
-                            <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
-                                Designation</label>
-                            <textarea id="designation" name="designation"
-                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                required>
-                            </textarea>
-                        </div>
-                        <div class="mb-4">
-                            <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
-                                Description</label>
-                            <textarea id="editor" name="description"
-                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                required>
-                            </textarea>
-                        </div>
 
-                        <div class="mb-4">
-                            <label for="image"
-                                class="mb-3 text-gray-700 block font-medium text-black dark:text-white">Image</label>
-                            <input type="file" id="image" name="image" accept="image/*"
-                                onchange="previewImage(this)"
-                                class="w-full px-4 py-2 border-stroke bg-transparent font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                            <small class="mt-2"><span class="text-danger">Note: </span>Image must be upload 1:1 ratio or
-                                500X500 px</small>
-                            <div class="mt-2">
-                                <img id="image-preview" class="hidden w-16 h-16 rounded-full object-cover"
-                                    alt="Image Preview">
-                            </div>
-                        </div>
+
+
                         <div>
                             <button type="submit"
                                 class="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
@@ -86,9 +59,7 @@
                                 <th class="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                                     Name
                                 </th>
-                                <th class="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Image
-                                </th>
+
 
 
                                 <th class="py-4 px-4 font-medium text-black dark:text-white">
@@ -98,25 +69,21 @@
                         </thead>
                         <tbody>
 
-                            @foreach ($testimonials as $key => $testimonial)
+                            @foreach ($categories as $key => $category)
                                 <tr>
                                     <td class="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
 
                                         <p class="text-sm">{{ ++$key }}</p>
                                     </td>
                                     <td class="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p class="text-black dark:text-white">{{ $testimonial?->name }}</p>
+                                        <p class="text-black dark:text-white">{{ $category?->name }}</p>
                                     </td>
-                                    <td class="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <img class="w-16 h-16 rounded-full object-cover" alt="Image"
-                                            src="{{ asset('cv/' . ($testimonial ? $testimonial->image : '')) }}">
-                                    </td>
+
 
 
                                     <td class="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <div class="flex items-center space-x-3.5">
-                                            <a href="{{ route('testimonial.edit', $testimonial->id) }}"
-                                                class="hover:text-primary">
+                                            <a href="{{ route('category.edit', $category->id) }}" class="hover:text-primary">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -124,8 +91,7 @@
                                                 </svg>
 
                                             </a>
-                                            <a href="{{ route('testimonial.delete', $testimonial->id) }}"
-                                                class="hover:text-primary">
+                                            <a href="{{ route('category.delete', $category->id) }}" class="hover:text-primary">
                                                 <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18"
                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path
@@ -151,34 +117,13 @@
                         </tbody>
                     </table>
                 </div>
-                {{-- <div class="pagination mt-5 p-4">
-                    {{ $categories->links() }}
-                </div> --}}
+                <div class="pagination mt-5 p-4">
+                    {{ $categories?->links() }}
+                </div>
             </div>
         </div>
     </div>
 
 
-    <script>
-        function previewImage(input) {
-            const preview = document.getElementById('image-preview');
-            const file = input.files[0];
 
-            if (file) {
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.classList.remove('hidden');
-                };
-
-                reader.readAsDataURL(file);
-            }
-        }
-        ClassicEditor
-            .create(document.querySelector('#editor'))
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
 @endsection

@@ -50,7 +50,7 @@
                         </div>
                         <div class="mb-2">
                             <img class="w-16 h-16 rounded-full object-cover" alt="Image"
-                                src="{{ asset($testimonial->image) }}">
+                                src="{{ asset('cv/' . ($testimonial ? $testimonial->image : '')) }}">
                         </div>
                         <div class="mb-4">
                             <label for="image"

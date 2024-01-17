@@ -57,7 +57,7 @@
     <!--/ Nav Star /-->
     <nav class="navbar navbar-b navbar-trans navbar-expand-md fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll" href="#page-top">DevFolio</a>
+            <a class="navbar-brand js-scroll" href="#page-top">Portfolio</a>
             <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDefault"
                 aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
                 <span></span>
@@ -126,7 +126,7 @@
                                     <div class="col-sm-6 col-md-5">
                                         <div class="about-img animate__animated animate-on-scroll"
                                             data-animation="animate__flipInX">
-                                            <img src="{{ asset('cv/' . ($about ? $about->image : '')) }}"
+                                            <img src="{{ asset('cv/' . ($personal_info ? $personal_info->image : '')) }}"
                                                 class="img-fluid rounded b-shadow-a" alt="">
 
                                         </div>
@@ -173,12 +173,12 @@
                                     <div class="title-box-2">
                                         <h5 class="title-left animate__animated animate-on-scroll"
                                             data-animation="animate__heartBeat animate__delay-2s">
-                                            {{ $about?->title }}
+                                            About Me
                                         </h5>
                                     </div>
                                     <div class="lead animate__animated animate-on-scroll"
                                         data-animation="animate__fadeInUp" style="color: #fff; !important">
-                                        {!! $about?->description !!}
+                                        {!! $personal_info?->description !!}
                                     </div>
 
                                 </div>
@@ -296,9 +296,9 @@
                                                 data-animation="animate__jello">{{ $item?->title }}</h2>
                                             <div class="w-more animate__animated animate-on-scroll"
                                                 data-animation="animate__backInLeft">
-                                                <span class="w-ctegory">Web Design</span> / <span class="w-date">18
-                                                    Sep.
-                                                    2018</span>
+                                                <span class="w-ctegory"> <a
+                                                        href="{{ $item?->link }}">Link</a></span> / <span
+                                                    class="w-date">{{ date('d, F Y', strtotime($item?->created_at)) }}</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -332,8 +332,9 @@
                         @foreach ($testimonials as $item)
                             <div class="testimonial-box">
                                 <div class="author-test">
-                                    <img src="{{ asset('cv/' . ($item ? $item->image : '')) }}" alt=""
-                                        class="rounded-circle b-shadow-a">
+                                    <img src="{{ asset('cv/' . ($item ? $item->image : '')) }}"
+                                        style="width: 100px; height: 100px; rounded="100%" alt=""
+                                        class=" img-fluid rounded-circle b-shadow-a">
                                     <span class="author">{{ $item?->name }}</span>
                                 </div>
                                 <div class="content-test">
@@ -352,150 +353,93 @@
     </div>
 
     <!--/ Section Blog Star /-->
-    {{-- <section id="blog" class="blog-mf sect-pt4 route">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="title-box text-center">
-                        <h3 class="title-a animate__animated animate-on-scroll"
-                            data-animation="animate__lightSpeedInLeft">
-                            Blog
-                        </h3>
-                        <p class="subtitle-a animate__animated animate-on-scroll" data-animation="animate__heartBeat">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                        </p>
-                        <div class="line-mf"></div>
+
+    @if (count($blogs) > 0)
+        <section id="blog" class="blog-mf sect-pt4 route">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="title-box text-center">
+                            <h3 class="title-a animate__animated animate-on-scroll"
+                                data-animation="animate__lightSpeedInLeft">
+                                Blog
+                            </h3>
+                            <p class="subtitle-a animate__animated animate-on-scroll"
+                                data-animation="animate__heartBeat">
+                                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                            </p>
+                            <div class="line-mf"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    @foreach ($blogs as $blog)
+                        <div class="col-md-4">
+                            <div class="card card-blog">
+                                <div class="card-img">
+                                    <a href="{{ route('blog_single',['user_name' => $user_id->user_name, 'slug' => $blog->slug]) }}"><img
+                                            src="{{ asset('cv/' . ($blog ? $blog->image : '')) }}" alt=""
+                                            class="img-fluid"></a>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-category-box">
+                                        <div class="card-category">
+                                            <h6 class="category animate__animated animate-on-scroll"
+                                                data-animation="animate__flash">{{ $blog->category->name }}</h6>
+                                        </div>
+                                    </div>
+                                    <h3 class="card-title animate__animated animate-on-scroll"
+                                        data-animation="animate__fadeInUp"><a href="{{ route('blog_single',['user_name' => $user_id->user_name, 'slug' => $blog->slug]) }}">
+                                            {{ $blog->title }}</a></h3>
+                                    <p class="card-description animate__animated animate-on-scroll"
+                                        data-animation="animate__fadeInUp">
+                                        {!! strlen($blog->body) > 150 ? substr($blog->body, 0, 150) . '...' : $blog->body !!}
+
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="post-author animate__animated animate-on-scroll"
+                                        data-animation="animate__fadeInLeft">
+                                        <a href="#">
+                                            <img src="{{ asset('cv/' . ($personal_info ? $personal_info->image : '')) }}"
+                                                alt="{{ $user_id->name }}" class="avatar rounded-circle">
+                                            <span class="author">{{ $personal_info->full_name }}</span>
+                                        </a>
+                                    </div>
+                                    <div class="post-date animate__animated animate-on-scroll"
+                                        data-animation="animate__fadeInRight">
+                                        <span class="ion-ios-clock-outline"></span>
+                                        {{ $blog->created_at->diffForHumans() }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+
+
+                </div>
+            </div>
+        </section>
+    @else
+        <section class="paralax-mf footer-paralax bg-image route"
+            style="background-image: url({{ asset('frontend/img/overlay-bg.jpg') }}); margin-top:-50px">
+            <div class="overlay-mf"></div>
+            <div class="container" style="background:none;">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <hr style="margin:0 !important; color:#fff; background:#fff">
+
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card card-blog">
-                        <div class="card-img">
-                            <a href="blog-single.html"><img src="{{ asset('frontend/img/post-1.jpg') }}"
-                                    alt="" class="img-fluid"></a>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-category-box">
-                                <div class="card-category">
-                                    <h6 class="category animate__animated animate-on-scroll"
-                                        data-animation="animate__flash">Travel</h6>
-                                </div>
-                            </div>
-                            <h3 class="card-title animate__animated animate-on-scroll"
-                                data-animation="animate__fadeInUp"><a href="blog-single.html">See more ideas about
-                                    Travel</a></h3>
-                            <p class="card-description animate__animated animate-on-scroll"
-                                data-animation="animate__fadeInUp">
-                                Proin eget tortor risus. Pellentesque in ipsum id orci porta dapibus. Praesent sapien
-                                massa, convallis
-                                a pellentesque nec,
-                                egestas non nisi.
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="post-author animate__animated animate-on-scroll"
-                                data-animation="animate__fadeInLeft">
-                                <a href="#">
-                                    <img src="{{ asset('frontend/img/testimonial-2.jpg') }}" alt=""
-                                        class="avatar rounded-circle">
-                                    <span class="author">Morgan Freeman</span>
-                                </a>
-                            </div>
-                            <div class="post-date animate__animated animate-on-scroll"
-                                data-animation="animate__fadeInRight">
-                                <span class="ion-ios-clock-outline"></span> 10 min
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-blog">
-                        <div class="card-img">
-                            <a href="blog-single.html"><img src="{{ asset('frontend/img/post-2.jpg') }}"
-                                    alt="" class="img-fluid"></a>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-category-box">
-                                <div class="card-category">
-                                    <h6 class="category animate__animated animate-on-scroll"
-                                        data-animation="animate__flash">Web Design</h6>
-                                </div>
-                            </div>
-                            <h3 class="card-title animate__animated animate-on-scroll"
-                                data-animation="animate__fadeInUp"><a href="blog-single.html">See more ideas about
-                                    Travel</a></h3>
-                            <p class="card-description animate__animated animate-on-scroll"
-                                data-animation="animate__fadeInUp">
-                                Proin eget tortor risus. Pellentesque in ipsum id orci porta dapibus. Praesent sapien
-                                massa, convallis
-                                a pellentesque nec,
-                                egestas non nisi.
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="post-author animate__animated animate-on-scroll"
-                                data-animation="animate__fadeInLeft">
-                                <a href="#">
-                                    <img src="{{ asset('frontend/img/testimonial-2.jpg') }}" alt=""
-                                        class="avatar rounded-circle">
-                                    <span class="author">Morgan Freeman</span>
-                                </a>
-                            </div>
-                            <div class="post-date animate__animated animate-on-scroll"
-                                data-animation="animate__fadeInRight">
-                                <span class="ion-ios-clock-outline"></span> 10 min
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-blog">
-                        <div class="card-img">
-                            <a href="blog-single.html"><img src="{{ asset('frontend/img/post-3.jpg') }}"
-                                    alt="" class="img-fluid"></a>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-category-box">
-                                <div class="card-category">
-                                    <h6 class="category animate__animated animate-on-scroll"
-                                        data-animation="animate__flash">Web Design</h6>
-                                </div>
-                            </div>
-                            <h3 class="card-title animate__animated animate-on-scroll"
-                                data-animation="animate__fadeInUp"><a href="blog-single.html">See more ideas about
-                                    Travel</a></h3>
-                            <p class="card-description animate__animated animate-on-scroll"
-                                data-animation="animate__fadeInUp">
-                                Proin eget tortor risus. Pellentesque in ipsum id orci porta dapibus. Praesent sapien
-                                massa, convallis
-                                a pellentesque nec,
-                                egestas non nisi.
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <div class="post-author animate__animated animate-on-scroll"
-                                data-animation="animate__fadeInLeft">
-                                <a href="#">
-                                    <img src="{{ asset('frontend/img/testimonial-2.jpg') }}" alt=""
-                                        class="avatar rounded-circle">
-                                    <span class="author">Morgan Freeman</span>
-                                </a>
-                            </div>
-                            <div class="post-date animate__animated animate-on-scroll"
-                                data-animation="animate__fadeInRight">
-                                <span class="ion-ios-clock-outline"></span> 10 min
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> --}}
+        </section>
+    @endif
+
     <!--/ Section Blog End /-->
 
     <!--/ Section Contact-Footer Star /-->
-    <section class="paralax-mf footer-paralax bg-image sect-mt4 route"
+    <section class="paralax-mf footer-paralax bg-image route"
         style="background-image: url({{ asset('frontend/img/overlay-bg.jpg') }})">
         <div class="overlay-mf"></div>
         <div class="container">
@@ -511,8 +455,7 @@
                                         </h5>
                                     </div>
                                     <div>
-                                        <form action="{{ route('contact.save') }}" method="post"
-                                            >
+                                        <form action="{{ route('contact.save') }}" method="post">
                                             @csrf
                                             <input type="hidden" name="user_id" value="{{ $user_id->id }}"
                                                 id="">
@@ -650,7 +593,7 @@
     <script src="{{ asset('frontend/js/main.js') }}"></script>
 
     {{-- <script>
-         @if(Session::has('success'))
+         @if (Session::has('success'))
         toastr.options =
         {
             "closeButton" : true,

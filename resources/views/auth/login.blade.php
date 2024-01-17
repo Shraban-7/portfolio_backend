@@ -92,8 +92,8 @@
                 <div class="mb-4">
                     <x-input-label for="email" :value="__('Email')" />
                     <input id="email" class="block w-full border border-gray-300 p-2 rounded" type="email"
-                        name="email" :value="old('email')" required autocomplete="username" />
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                        name="email" value="{{ old('email') }}" required autocomplete="username" />
+                    <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
                 </div>
 
                 <!-- Password -->
@@ -101,7 +101,7 @@
                     <x-input-label for="password" :value="__('Password')" />
                     <input id="password" class="block w-full border border-gray-300 p-2 rounded" type="password"
                         name="password" required autocomplete="new-password" />
-                    <error :messages="$errors - > get('password')" class="mt-2" />
+                    <error :messages="$errors - > get('password')" class="mt-2 text-danger" />
                 </div>
 
                 <!-- Remember Me -->

@@ -40,7 +40,7 @@
 
                         <div class="mb-2">
                             <img class="w-16 h-16 rounded-full object-cover" alt="Image"
-                                src="{{ asset($portfolio->image) }}">
+                                src="{{ asset('cv/' . ($portfolio ? $portfolio->image : '')) }}">
                         </div>
                         <div class="mb-4">
                             <label for="image"

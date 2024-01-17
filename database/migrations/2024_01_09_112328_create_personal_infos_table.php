@@ -15,10 +15,12 @@ return new class extends Migration
         Schema::create('personal_infos', function (Blueprint $table) {
             $table->id();
             $table->string('full_name');
+            $table->text('image')->nullable();
             $table->string('email');
             $table->string('phone');
             $table->string('address');
             $table->string('profile');
+            $table->text('description')->nullable();
             $table->foreignId('user_id')->nullable()
       ->constrained()
       ->onUpdate('cascade')

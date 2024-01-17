@@ -8,6 +8,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\HeroController;
 
 use App\Http\Controllers\Admin\AboutController;
+use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\CounterController;
@@ -24,6 +26,9 @@ Route::get('/', function () {
 
 
 Route::get('cv/{user_name}',[FrontendController::class,'main'] )->name('home');
+
+// Single blog
+Route::get('cv/{user_name}/blog/{slug}',[FrontendController::class,'blog_single'] )->name('blog_single');
 
 
 Route::post('contact/',[ContactController::class,'contact'])->name('contact.save');
@@ -68,23 +73,23 @@ Route::middleware(['auth'])->group(function () {
     Route::post('hero/update',[HeroController::class,'update'])->name('hero.update');
     Route::get('hero/delete/{hero}',[HeroController::class,'destroy'])->name('hero.delete');
     // about
-    Route::get('about/manage/',[AboutController::class,'index'])->name('about.manage');
-    Route::post('about/store/',[AboutController::class,'store'])->name('about.store');
-    Route::get('about/data',[AboutController::class,'edit'])->name('about.edit');
-    Route::post('about/update',[AboutController::class,'update'])->name('about.update');
-    Route::get('about/delete/{about}',[AboutController::class,'destroy'])->name('about.delete');
+    // Route::get('about/manage/',[AboutController::class,'index'])->name('about.manage');
+    // Route::post('about/store/',[AboutController::class,'store'])->name('about.store');
+    // Route::get('about/data',[AboutController::class,'edit'])->name('about.edit');
+    // Route::post('about/update',[AboutController::class,'update'])->name('about.update');
+    // Route::get('about/delete/{about}',[AboutController::class,'destroy'])->name('about.delete');
     // counter
-    Route::get('counter/manage/',[CounterController::class,'index'])->name('counter.manage');
-    Route::post('counter/store/',[CounterController::class,'store'])->name('counter.store');
-    Route::get('counter/edit/{counter}',[CounterController::class,'edit'])->name('counter.edit');
-    Route::post('counter/update/{counter}',[CounterController::class,'update'])->name('counter.update');
-    Route::get('counter/delete/{counter}',[CounterController::class,'destroy'])->name('counter.delete');
+    Route::get('achievement/manage/',[CounterController::class,'index'])->name('counter.manage');
+    Route::post('achievement/store/',[CounterController::class,'store'])->name('counter.store');
+    Route::get('achievement/edit/{counter}',[CounterController::class,'edit'])->name('counter.edit');
+    Route::post('achievement/update/{counter}',[CounterController::class,'update'])->name('counter.update');
+    Route::get('achievement/delete/{counter}',[CounterController::class,'destroy'])->name('counter.delete');
 
     // personal info
-    Route::get('personal_info/create/',[PersonalInfoController::class,'create'])->name('personal_info.create');
-    Route::post('personal_info/store/',[PersonalInfoController::class,'store'])->name('personal_info.store');
-    Route::get('personal_info/edit',[PersonalInfoController::class,'edit'])->name('personal_info.edit');
-    Route::post('personal_info/update',[PersonalInfoController::class,'update'])->name('personal_info.update');
+    Route::get('about/create/',[PersonalInfoController::class,'create'])->name('personal_info.create');
+    Route::post('about/store/',[PersonalInfoController::class,'store'])->name('personal_info.store');
+    Route::get('about/edit',[PersonalInfoController::class,'edit'])->name('personal_info.edit');
+    Route::post('about/update',[PersonalInfoController::class,'update'])->name('personal_info.update');
 
      // testimonial
      Route::get('testimonial/manage/',[TestimonialController::class,'index'])->name('testimonial.manage');
@@ -100,9 +105,19 @@ Route::middleware(['auth'])->group(function () {
      Route::post('social_icon/update/{social_icon}',[SocialIconController::class,'update'])->name('social_icon.update');
      Route::get('social_icon/delete/{social_icon}',[SocialIconController::class,'destroy'])->name('social_icon.delete');
 
-     //contact
+     //category
+     Route::get('category/manage/',[CategoryController::class,'index'])->name('category.manage');
+     Route::post('category/store/',[CategoryController::class,'store'])->name('category.store');
+     Route::get('category/edit/{category}',[CategoryController::class,'edit'])->name('category.edit');
+     Route::post('category/update/{category}',[CategoryController::class,'update'])->name('category.update');
+     Route::get('category/delete/{category}',[CategoryController::class,'destroy'])->name('category.delete');
 
-
+     //Blog
+     Route::get('blog/manage/',[BlogController::class,'index'])->name('blog.manage');
+     Route::post('blog/store/',[BlogController::class,'store'])->name('blog.store');
+     Route::get('blog/edit/{blog}',[BlogController::class,'edit'])->name('blog.edit');
+     Route::post('blog/update/{category}',[BlogController::class,'update'])->name('blog.update');
+     Route::get('blog/delete/{blog}',[BlogController::class,'destroy'])->name('blog.delete');
 });
 
 Route::middleware('auth')->group(function () {

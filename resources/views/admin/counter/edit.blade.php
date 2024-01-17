@@ -20,7 +20,7 @@
                             </ul>
                         </div>
                     @endif
-                    <h2 class="text-2xl font-semibold mb-4">Update counter</h2>
+                    <h2 class="text-2xl font-semibold mb-4">Update Achivements</h2>
                     <form action="{{ route('counter.update', $counter->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">

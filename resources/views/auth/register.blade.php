@@ -82,32 +82,32 @@
                     </svg>
                 </a>
             </div>
-            <form method="POST" action="{{ route('register') }}"
-                class="pb-12 px-6 md:pb-12 md:px-12">
+            <form method="POST" action="{{ route('register') }}" class="pb-12 px-6 md:pb-12 md:px-12">
                 @csrf
 
                 <!-- Name -->
                 <div class="mb-4">
                     <x-input-label for="name" :value="__('Name')" />
                     <input id="name" class="block w-full border border-gray-300 p-2 rounded" type="text"
-                        name="name" :value="old('name')" required autofocus />
-                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                        name="name" value="{{ old('name') }}" required autofocus />
+                    <x-input-error :messages="$errors->get('name')" class="mt-2 text-danger" />
                 </div>
 
                 <!-- Username -->
                 <div class="mb-4">
                     <x-input-label for="user_name" :value="__('Username')" />
                     <input type="text" id="user_name" name="user_name"
-                        class="block w-full border border-gray-300 p-2 rounded" :value="old('name')" required
+                        class="block w-full border border-gray-300 p-2 rounded" value="{{ old('name') }}" required
                         autofocus>
+                    <x-input-error :messages="$errors->get('user_name')" class="mt-2 text-danger" />
                 </div>
 
                 <!-- Email Address -->
                 <div class="mb-4">
                     <x-input-label for="email" :value="__('Email')" />
                     <input id="email" class="block w-full border border-gray-300 p-2 rounded" type="email"
-                        name="email" :value="old('email')" required autocomplete="username" />
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                        name="email" value="{{ old('email') }}" required autocomplete="username" />
+                    <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
                 </div>
 
                 <!-- Password -->
@@ -115,7 +115,7 @@
                     <x-input-label for="password" :value="__('Password')" />
                     <input id="password" class="block w-full border border-gray-300 p-2 rounded" type="password"
                         name="password" required autocomplete="new-password" />
-                    <error :messages="$errors - > get('password')" class="mt-2" />
+                    <error :messages="$errors - > get('password')" class="mt-2 text-danger" />
                 </div>
 
                 <!-- Confirm Password -->
