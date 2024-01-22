@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,14 +23,23 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request)
     {
+
+        $user= User::where('email',$request->email)->first();
+        if ($user->status != 1) {
+            return redirect('/login')->with('error', 'Your account not active yet');
+        }
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        // $url = 'dashboard';
+        // if (Auth::user()->status != 1) {
+        //     Auth::logout();
+        //     return redirect('/login')->with('error', 'Your account not active yet');
+        // }
 
+        // $url = 'dashboard';
 
         return redirect()->route('dashboard');
     }

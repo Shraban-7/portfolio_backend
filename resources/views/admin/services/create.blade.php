@@ -22,7 +22,7 @@
                         </div>
                     @endif
                     <div class="w-full my-4 text-end">
-                        <a href="{{ route('service.manage') }}" class="bg-primary py-2 mx-4 px-4 text-white border rounded-lg">Goto Manage</a>
+                        <a href="{{ route('service.manage') }}" class="bg-primary py-2 mx-4 px-4 text-white border rounded-lg">Back</a>
                     </div>
                     <h2 class="text-2xl font-semibold mb-4">Add Service</h2>
                     <form action="{{ route('service.store') }}" method="POST" enctype="multipart/form-data">

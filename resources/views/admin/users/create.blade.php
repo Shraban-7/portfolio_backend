@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Testimonal Manage
+    User Create
 @endsection
 
 @section('content')
@@ -21,47 +21,68 @@
                         </div>
                     @endif
                     <div class="w-full my-4 text-end">
-                        <a href="{{ route('testimonial.manage') }}" class="bg-primary py-2 mx-4 px-4 text-white border rounded-lg">Back</a>
+                        <a href="{{ route('user.manage') }}"
+                            class="bg-primary py-2 mx-4 px-4 text-white border rounded-lg">Back</a>
                     </div>
-                    <h2 class="text-2xl font-semibold mb-4 capitalize">Add testimonial</h2>
-                    <form action="{{ route('testimonial.store') }}" method="POST" enctype="multipart/form-data">
+                    <h2 class="text-2xl font-semibold mb-4">Add Blog</h2>
+                    <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
                             <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
-                                Name</label>
+                                Fullname</label>
                             <input type="text" id="name" name="name"
                                 class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 required>
                         </div>
                         <div class="mb-4">
                             <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
-                                Designation</label>
-                            <textarea id="designation" name="designation"
+                                Fullname</label>
+                            <input type="text" id="name" name="name"
                                 class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 required>
-                            </textarea>
                         </div>
                         <div class="mb-4">
                             <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
-                                Description</label>
-                            <textarea id="editor" name="description"
+                                Username</label>
+                            <input type="text" id="name" name="user_name"
                                 class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 required>
-                            </textarea>
                         </div>
-
                         <div class="mb-4">
-                            <label for="image"
-                                class="mb-3 text-gray-700 block font-medium text-black dark:text-white">Image</label>
-                            <input type="file" id="image" name="image" accept="image/*"
-                                onchange="previewImage(this)"
+                            <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
+                                Email</label>
+                            <input type="email" id="name" name="email"
+                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="role" class="mb-3 text-gray-700 block font-medium text-black dark:text-white">
+                                Role</label>
+                            <select id="role" name="role"
                                 class="w-full px-4 py-2 border-stroke bg-transparent font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                            <small class="mt-2"><span class="text-danger">Note: </span>Image must be upload 1:1 ratio or
-                                500X500 px</small>
-                            <div class="mt-2">
-                                <img id="image-preview" class="hidden w-16 h-16 rounded-full object-cover"
-                                    alt="Image Preview">
-                            </div>
+                                <option value="" disabled selected>Select Role</option>
+
+                                @foreach (config('user_role') as $key => $value)
+
+                                <option value="{{ $key }}">{{ $value }}</option>
+                                @endforeach
+
+
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
+                                Password</label>
+                            <input type="password" id="name" name="password"
+                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
+                                Confirm Password</label>
+                            <input type="password" id="name" name="password_confirmation"
+                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                required>
                         </div>
                         <div>
                             <button type="submit"
@@ -74,28 +95,4 @@
             </div>
         </div>
     </div>
-
-
-    <script>
-        function previewImage(input) {
-            const preview = document.getElementById('image-preview');
-            const file = input.files[0];
-
-            if (file) {
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.classList.remove('hidden');
-                };
-
-                reader.readAsDataURL(file);
-            }
-        }
-        ClassicEditor
-            .create(document.querySelector('#editor'))
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
 @endsection

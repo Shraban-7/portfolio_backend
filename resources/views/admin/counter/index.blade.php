@@ -10,7 +10,7 @@
     <div class="py-12 ">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
             <div
-                class="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+                class="rounded-sm border border-white bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
                 <div class="flex justify-between mb-4">
                     <h1 class="text-2xl font-semibold">Achivement Manage</h1>
                     <a href="{{ route('counter.create') }}"

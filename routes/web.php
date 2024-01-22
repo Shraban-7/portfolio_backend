@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\PortfolioController;
 use App\Http\Controllers\Admin\SocialIconController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\PersonalInfoController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Api\FrontendController;
 
 Route::get('/', function () {
@@ -123,8 +124,15 @@ Route::middleware(['auth'])->group(function () {
      Route::get('blog/create/',[BlogController::class,'create'])->name('blog.create');
      Route::post('blog/store/',[BlogController::class,'store'])->name('blog.store');
      Route::get('blog/edit/{blog}',[BlogController::class,'edit'])->name('blog.edit');
-     Route::post('blog/update/{category}',[BlogController::class,'update'])->name('blog.update');
+     Route::post('blog/update/{blog}',[BlogController::class,'update'])->name('blog.update');
      Route::get('blog/delete/{blog}',[BlogController::class,'destroy'])->name('blog.delete');
+
+     //User Settings
+     Route::get('user/manage/',[UserController::class,'index'])->name('user.manage');
+     Route::get('user/create/',[UserController::class,'create'])->name('user.create');
+     Route::post('user/store/',[UserController::class,'store'])->name('user.store');
+     Route::get('user/status/{user}',[UserController::class,'is_active'])->name('user.status');
+     
 });
 
 Route::middleware('auth')->group(function () {

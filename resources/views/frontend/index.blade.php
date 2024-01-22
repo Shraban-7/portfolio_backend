@@ -102,11 +102,10 @@
 
                     <!-- Dynamic subtitle -->
                     <p class="intro-subtitle">
-                        <span class="text-slider-items">{{ $hero?->sub_title1 ?? ''}}
-                            {{ $hero?->sub_title2 ? ','.$hero?->sub_title2 : '' }}
-                            {{ $hero?->sub_title3 ? ','.$hero?->sub_title3 : '' }}
-                            {{ $hero?->sub_title4 ? ','.$hero?->sub_title4 : '' }}
-                            {{ $hero?->sub_title5 ? ','.$hero?->sub_title5 : '' }}
+                        <span class="text-slider-items">
+                            @foreach ($hero->subtitles as $item)
+                                {{ $item->sub_title ? ',' . $item->sub_title : '' }}
+                            @endforeach
                         </span>
                         <strong class="text-slider"></strong>
                     </p>

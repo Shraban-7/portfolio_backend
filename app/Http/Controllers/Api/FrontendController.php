@@ -36,7 +36,7 @@ class FrontendController extends Controller
         $data = [];
 
         // Hero area data
-        $data['hero'] = Hero::where('user_id', $user->id)->first();
+        $data['hero'] = Hero::with('subtitles')->where('user_id', $user->id)->first();
 
         // return $data;
 
