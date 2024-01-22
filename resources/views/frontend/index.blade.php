@@ -103,9 +103,17 @@
                     <!-- Dynamic subtitle -->
                     <p class="intro-subtitle">
                         <span class="text-slider-items">
-                            @foreach ($hero->subtitles as $item)
-                                {{ $item->sub_title ? ',' . $item->sub_title : '' }}
-                            @endforeach
+
+                            @if ($hero)
+
+
+                                @foreach ($hero?->subtitles as $key => $item)
+                                    @if ($key > 0)
+                                        {{ ',' }}
+                                    @endif
+                                    {{ $item->sub_title }}
+                                @endforeach
+                            @endif
                         </span>
                         <strong class="text-slider"></strong>
                     </p>
