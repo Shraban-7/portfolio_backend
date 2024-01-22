@@ -20,4 +20,12 @@ class Hero extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    /**
+     * Get the subtitles associated with the hero.
+     */
+    public function subtitles()
+    {
+        return $this->belongsToMany(HeroSubTitle::class, 'hero_herosubtitles')->withTimestamps();
+    }
 }

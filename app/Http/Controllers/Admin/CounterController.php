@@ -38,7 +38,7 @@ class CounterController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.counter.create');
     }
 
     /**
@@ -148,6 +148,6 @@ class CounterController extends Controller
     {
         $counter = Counter::findOrFail($id);
         $counter->delete();
-        return redirect()->route('counter.manage')->with('warning','counter delete permanently');
+        return redirect()->route('counter.manage')->with('warning','Data delete permanently');
     }
 }

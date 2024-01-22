@@ -1,63 +1,19 @@
 @extends('layouts.app')
 
+@section('title')
+Social Media Manage
+@endsection
+
 @section('content')
-
     <div class="py-12 ">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
-            <div class="bg-white overflow-hidden  sm:rounded-lg  shadow-default dark:border-strokedark dark:bg-boxdark">
-                <div class="p-6 text-gray-900">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <p><strong>Opps Something went wrong</strong></p>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    <h2 class="text-2xl font-semibold mb-4 capitalize">Add social_icon</h2>
-                    <form action="{{ route('social_icon.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="mb-4">
-                            <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
-                                Name</label>
-                            <input type="text" id="name" name="title"
-                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                required>
-                        </div>
-                        <div class="mb-4">
-                            <label for="url" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
-                                Link</label>
-                            <input type="url" id="link" name="link"
-                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                        </div>
-                        <div class="mb-4">
-                            <label for="icon" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
-                                Icon</label>
-                            <input type="text" id="link" name="icon" placeholder="Ex: 'ion-code-working'"
-                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                            <small>Choose your icon class name <a target="_blank" class="text-blue-600"
-                                    href="https://ionic.io/ionicons/v2">Go here..</a></small>
-                        </div>
-
-
-                        <div>
-                            <button type="submit"
-                                class="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                                Submit
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="pb-12 ">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
             <div
                 class="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+                <div class="flex justify-between mb-4">
+                    <h1 class="text-2xl font-semibold">Testimonila Manage</h1>
+                    <a href="{{ route('social_icon.create') }}"
+                        class="bg-primary py-2  px-4 text-white border rounded-lg">Create</a>
+                </div>
                 <div class="max-w-full overflow-x-auto">
                     <table class="w-full table-auto">
                         <thead>
@@ -68,7 +24,12 @@
                                 <th class="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                                     Name
                                 </th>
-
+                                <th class="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                                    Url
+                                </th>
+                                <th class="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                                    Icon
+                                </th>
 
                                 <th class="py-4 px-4 font-medium text-black dark:text-white">
                                     Actions
@@ -86,6 +47,12 @@
                                     <td class="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p class="text-black dark:text-white">{{ $social_icon?->title }}</p>
                                     </td>
+                                    <td class="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                        <p class="text-black dark:text-white">{{ $social_icon?->link }}</p>
+                                    </td>
+                                    <td class="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                        <p class="text-black dark:text-white">{{ $social_icon?->icon }}</p>
+                                    </td>
 
 
                                     <td class="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -99,7 +66,8 @@
                                                 </svg>
 
                                             </a>
-                                            <a href="{{ route('social_icon.delete', $social_icon->id) }}"
+                                            <a href="#" data-confirm-delete="true"
+                                            onclick="confirmDelete('{{ route('social_icon.delete', $social_icon->id) }}')"
                                                 class="hover:text-primary">
                                                 <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18"
                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -132,4 +100,23 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function confirmDelete(deleteUrl) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the delete URL if confirmed
+                    window.location.href = deleteUrl;
+                }
+            });
+        }
+    </script>
 @endsection

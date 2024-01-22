@@ -37,7 +37,7 @@ class TestimonialController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.testimonial.create');
     }
 
     /**
@@ -153,6 +153,6 @@ class TestimonialController extends Controller
 
         File::delete($testimonial->image);
         $testimonial->delete();
-        return redirect()->route('testimonial.manage');
+        return redirect()->route('testimonial.manage')->with('warning','Data delete permanently');
     }
 }

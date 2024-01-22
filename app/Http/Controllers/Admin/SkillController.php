@@ -33,7 +33,7 @@ class SkillController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.skill.create');
     }
 
     /**
@@ -98,6 +98,6 @@ class SkillController extends Controller
         $skill = Skill::findOrFail($id);
 
         $skill->delete();
-        return redirect()->back();
+        return redirect()->route('skill.manage')->with('warning','Data delete permanently');
     }
 }

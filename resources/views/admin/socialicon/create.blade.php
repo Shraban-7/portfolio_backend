@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Skill Edit
+Social Media Manage
 @endsection
 
 @section('content')
@@ -21,25 +21,33 @@
                         </div>
                     @endif
                     <div class="w-full my-4 text-end">
-                        <a href="{{ route('skill.manage') }}" class="bg-primary py-2 mx-4 px-4 text-white border rounded-lg">Goto Manage</a>
+                        <a href="{{ route('social_icon.manage') }}" class="bg-primary py-2 mx-4 px-4 text-white border rounded-lg">Goto Manage</a>
                     </div>
-                    <h2 class="text-2xl font-semibold mb-4">Update skill</h2>
-                    <form action="{{ route('skill.update', $skill->id) }}" method="POST" enctype="multipart/form-data">
+                    <h2 class="text-2xl font-semibold mb-4 capitalize">Add social icon</h2>
+                    <form action="{{ route('social_icon.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
                             <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
                                 Name</label>
-                            <input type="text" id="name" name="title" value="{{ old('title', $skill->title) }}"
+                            <input type="text" id="name" name="title"
                                 class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 required>
                         </div>
                         <div class="mb-4">
-                            <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
-                                Percent</label>
-                            <input type="number" min="1" max="100" id="name" name="percent" value="{{ old('percent', $skill->percent) }}"
-                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                required>
+                            <label for="url" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
+                                Link</label>
+                            <input type="url" id="link" name="link"
+                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
                         </div>
+                        <div class="mb-4">
+                            <label for="icon" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
+                                Icon</label>
+                            <input type="text" id="link" name="icon" placeholder="Ex: 'ion-code-working'"
+                                class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                            <small>Choose your icon class name <a target="_blank" class="text-blue-600"
+                                    href="https://ionic.io/ionicons/v2">Go here..</a></small>
+                        </div>
+
 
                         <div>
                             <button type="submit"
@@ -52,5 +60,6 @@
             </div>
         </div>
     </div>
+
 
 @endsection

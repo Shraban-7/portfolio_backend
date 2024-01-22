@@ -6,6 +6,8 @@ use App\Models\SocialIcon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 
 class SocialIconController extends Controller
@@ -35,7 +37,7 @@ class SocialIconController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.socialicon.create');
     }
 
     /**
@@ -110,6 +112,6 @@ class SocialIconController extends Controller
     {
         $social_icon = SocialIcon::findOrFail($id);
         $social_icon->delete();
-        return redirect()->route('social_icon.manage');
+        return redirect()->route('social_icon.manage')->with('warning','Data delete permanently');
     }
 }

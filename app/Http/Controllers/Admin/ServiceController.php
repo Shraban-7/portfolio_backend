@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Service;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
 
 class ServiceController extends Controller
 {
@@ -29,7 +27,7 @@ class ServiceController extends Controller
     public function index()
     {
         // $services = Service::with('technologies');
-        $services = Service::where('user_id',$this->user_id)->get();
+        $services = Service::where('user_id', $this->user_id)->get();
 
         return view('admin.services.index', compact('services'));
 
@@ -40,10 +38,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-
-        // return "hi";
-
-
+        return view('admin.services.create');
     }
 
     /**
@@ -71,16 +66,16 @@ class ServiceController extends Controller
         // }
 
         Service::create([
-            'user_id'=>$this->user_id,
+            'user_id' => $this->user_id,
             'title' => $request->title,
             'description' => $request->description,
             'image' => $request->image,
-            'meta_title'=>$request->meta_title,
-            'meta_tag'=>$request->meta_tag,
-            'meta_desc'=>$request->meta_desc,
+            'meta_title' => $request->meta_title,
+            'meta_tag' => $request->meta_tag,
+            'meta_desc' => $request->meta_desc,
         ]);
 
-        return redirect()->back()->with('success','service save successfully');
+        return redirect()->back()->with('success', 'service save successfully');
     }
 
     /**
@@ -89,16 +84,15 @@ class ServiceController extends Controller
     public function is_active(string $id)
     {
         $service = Service::findOrFail($id);
-        if ($service->status==0) {
-            $service->status=1;
+        if ($service->status == 0) {
+            $service->status = 1;
             $service->save();
-        }
-        else{
-            $service->status=0;
+        } else {
+            $service->status = 0;
             $service->save();
         }
 
-        return redirect()->route('service.manage')->with('success','service update successfully');
+        return redirect()->route('service.manage')->with('success', 'service update successfully');
     }
 
     /**
@@ -146,16 +140,16 @@ class ServiceController extends Controller
         // }
 
         $service->update([
-            'user_id'=>$this->user_id,
+            'user_id' => $this->user_id,
             'title' => $request->title,
-            'image'=>$request->image,
+            'image' => $request->image,
             'description' => $request->description,
-            'meta_title'=>$request->meta_title,
-            'meta_tag'=>$request->meta_tag,
-            'meta_desc'=>$request->meta_desc,
+            'meta_title' => $request->meta_title,
+            'meta_tag' => $request->meta_tag,
+            'meta_desc' => $request->meta_desc,
         ]);
 
-        return redirect()->route('service.manage')->with('success','service update successfully');
+        return redirect()->route('service.manage')->with('success', 'service update successfully');
     }
 
     /**
@@ -163,9 +157,9 @@ class ServiceController extends Controller
      */
     public function destroy(string $id)
     {
-        $service= Service::findOrFail($id);
+        $service = Service::findOrFail($id);
         File::delete($service->image);
         $service->delete();
-        return redirect()->route('service.manage')->with('warning','service delete permanently');
+        return redirect()->route('service.manage')->with('warning', 'service delete permanently');
     }
 }

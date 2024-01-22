@@ -88,7 +88,7 @@
     <!--/ Nav End /-->
 
     <!--/ Intro Skew Star /-->
-    <div id="home" class="intro route bg-image" style="background-image: url({{ $hero?->image }})">
+    <div id="home" class="intro route bg-image" style="background-image: url({{ asset('cv/' . $hero?->image) }})">
         <!-- Overlay for background image -->
         <div class="overlay-itro"></div>
 
@@ -102,7 +102,12 @@
 
                     <!-- Dynamic subtitle -->
                     <p class="intro-subtitle">
-                        <span class="text-slider-items">{{ $hero?->sub_title1 }} ,{{ $hero?->sub_title2 }}</span>
+                        <span class="text-slider-items">{{ $hero?->sub_title1 ?? ''}}
+                            {{ $hero?->sub_title2 ? ','.$hero?->sub_title2 : '' }}
+                            {{ $hero?->sub_title3 ? ','.$hero?->sub_title3 : '' }}
+                            {{ $hero?->sub_title4 ? ','.$hero?->sub_title4 : '' }}
+                            {{ $hero?->sub_title5 ? ','.$hero?->sub_title5 : '' }}
+                        </span>
                         <strong class="text-slider"></strong>
                     </p>
 
@@ -378,7 +383,8 @@
                         <div class="col-md-4">
                             <div class="card card-blog">
                                 <div class="card-img">
-                                    <a href="{{ route('blog_single',['user_name' => $user_id->user_name, 'slug' => $blog->slug]) }}"><img
+                                    <a
+                                        href="{{ route('blog_single', ['user_name' => $user_id->user_name, 'slug' => $blog->slug]) }}"><img
                                             src="{{ asset('cv/' . ($blog ? $blog->image : '')) }}" alt=""
                                             class="img-fluid"></a>
                                 </div>
@@ -390,7 +396,8 @@
                                         </div>
                                     </div>
                                     <h3 class="card-title animate__animated animate-on-scroll"
-                                        data-animation="animate__fadeInUp"><a href="{{ route('blog_single',['user_name' => $user_id->user_name, 'slug' => $blog->slug]) }}">
+                                        data-animation="animate__fadeInUp"><a
+                                            href="{{ route('blog_single', ['user_name' => $user_id->user_name, 'slug' => $blog->slug]) }}">
                                             {{ $blog->title }}</a></h3>
                                     <p class="card-description animate__animated animate-on-scroll"
                                         data-animation="animate__fadeInUp">

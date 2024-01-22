@@ -20,6 +20,9 @@
                             </ul>
                         </div>
                     @endif
+                    <div class="w-full my-4 text-end">
+                        <a href="{{ route('testimonial.manage') }}" class="bg-primary py-2 mx-4 px-4 text-white border rounded-lg">Goto Manage</a>
+                    </div>
                     <h2 class="text-2xl font-semibold mb-4">Update testimonial</h2>
                     <form action="{{ route('testimonial.update', $testimonial->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf

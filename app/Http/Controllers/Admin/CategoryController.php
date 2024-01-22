@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
@@ -25,9 +25,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories= Category::where('user_id',$this->user_id)->orderBy('id','DESC')->paginate(10);
+        $categories = Category::where('user_id', $this->user_id)->orderBy('id', 'DESC')->paginate(10);
 
-        return view('admin.category.create',compact('categories'));
+        return view('admin.category.index', compact('categories'));
     }
 
     /**
@@ -35,7 +35,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.category.create');
     }
 
     /**
@@ -44,11 +44,11 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         Category::create([
-            'user_id'=>$this->user_id,
-            'name'=>$request->name
+            'user_id' => $this->user_id,
+            'name' => $request->name,
         ]);
 
-        return redirect()->route('category.manage')->with('success','category create successfully');
+        return redirect()->route('category.manage')->with('success', 'category create successfully');
     }
 
     /**
@@ -64,8 +64,8 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $category= Category::findOrFail($id);
-        return view('admin.category.edit',compact('category'));
+        $category = Category::findOrFail($id);
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -73,14 +73,14 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $category= Category::findOrFail($id);
+        $category = Category::findOrFail($id);
 
         $category->update([
-            'user_id'=>$this->user_id,
-            'name'=>$request->name
+            'user_id' => $this->user_id,
+            'name' => $request->name,
         ]);
 
-        return redirect()->route('category.manage')->with('success','category update successfully');
+        return redirect()->route('category.manage')->with('success', 'category update successfully');
     }
 
     /**
@@ -88,10 +88,10 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $category= Category::findOrFail($id);
+        $category = Category::findOrFail($id);
 
         $category->delete();
 
-        return redirect()->route('category.manage')->with('success','category has been deleted');
+        return redirect()->route('category.manage')->with('success', 'category has been deleted');
     }
 }

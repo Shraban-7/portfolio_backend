@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    blog Edit
+    Blog Edit
 @endsection
 @section('content')
 
@@ -18,6 +18,9 @@
                             </ul>
                         </div>
                     @endif
+                    <div class="w-full my-4 text-end">
+                        <a href="{{ route('blog.manage') }}" class="bg-primary py-2 mx-4 px-4 text-white border rounded-lg">Goto Manage</a>
+                    </div>
                     <h2 class="text-2xl font-semibold mb-4">Update blog</h2>
                     <form action="{{ route('blog.update', $blog->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf

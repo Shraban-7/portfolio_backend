@@ -31,7 +31,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::where('user_id',$this->user_id)->get();
+        $blogs = Blog::with('category')->where('user_id',$this->user_id)->get();
 
         $categories= Category::where('user_id',$this->user_id)->get();
 
@@ -43,7 +43,8 @@ class BlogController extends Controller
      */
     public function create()
     {
-        //
+        $categories= Category::where('user_id',$this->user_id)->get();
+        return view('admin.blog.create',compact('categories'));
     }
 
     /**

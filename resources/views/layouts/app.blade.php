@@ -9,6 +9,11 @@
     {{ config('app.name', 'Laravel') }} | @yield('title')
   </title>
   <script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
+  <!-- Include SweetAlert via CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{{-- @include('sweetalert::alert') --}}
+
 
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -19,6 +24,8 @@
          darkMode = JSON.parse(localStorage.getItem('darkMode'));
          $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
   :class="{'dark text-bodydark bg-boxdark-2': darkMode === true}">
+
+  {{-- @include('sweetalert::alert') --}}
   <!-- ===== Preloader Start ===== -->
 
   {{-- @include('partials.preloader') --}}
@@ -50,7 +57,7 @@
     <!-- ===== Content Area End ===== -->
   </div>
   <!-- ===== Page Wrapper End ===== -->
-  @include('sweetalert::alert')
+
 
 </body>
 
