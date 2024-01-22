@@ -48,6 +48,7 @@ class HeroController extends Controller
 
         $request->validate([
             'title' => 'nullable',
+            // 'sub_titles'=>'required',
             'image' => 'nullable|mimes:png,jpg,jpeg,svg,gif,webp,avif,apng',
         ]);
 

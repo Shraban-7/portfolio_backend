@@ -43,7 +43,7 @@
                                                 <input type="text"
                                                     class="w-full px-4 py-2 border-stroke bg-transparent font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                     name="sub_titles[]" placeholder="Subtitle {{ $index + 1 }}"
-                                                    value="{{ $subtitle->sub_title }}">
+                                                    value="{{ $subtitle->sub_title }}" required>
                                                 <button type="button"
                                                     class="remove-subtitle-button bg-danger text-white p-2 rounded ml-2"
                                                     onclick="removeSubtitleInput(this)">Remove</button>
@@ -97,7 +97,13 @@
         </div>
     </div>
 
-
+    <style>
+        /* Add some margin to subtitle rows */
+        #subtitle-container .flex {
+            margin-bottom: 8px;
+            /* Adjust the value as needed */
+        }
+    </style>
 
 
     <script>
@@ -119,28 +125,38 @@
 
         function addSubtitleInput() {
             const container = document.getElementById('subtitle-container');
-            const inputWrapper = document.createElement('div');
-            inputWrapper.className = 'flex';
 
-            const input = document.createElement('input');
-            input.classList =
-                'w-full px-4 py-2 border-stroke bg-transparent font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary';
-            input.type = 'text';
-            input.name = 'sub_titles[]';
-            input.placeholder = 'Subtitle';
+            // Check the current count of subtitle rows
+            const subtitleRows = container.querySelectorAll('.flex').length;
 
-            const removeButton = document.createElement('button');
-            removeButton.type = 'button';
-            removeButton.className = 'remove-subtitle-button bg-danger text-white p-2 rounded ml-2';
-            removeButton.textContent = 'Remove';
-            removeButton.onclick = function() {
-                removeSubtitleInput(inputWrapper);
-            };
+            // Only add a new row if the count is less than 5
+            if (subtitleRows < 5) {
+                const inputWrapper = document.createElement('div');
+                inputWrapper.className = 'flex';
 
-            inputWrapper.appendChild(input);
-            inputWrapper.appendChild(removeButton);
-            container.appendChild(inputWrapper);
+                const input = document.createElement('input');
+                input.classList =
+                    'w-full px-4 py-2 border-stroke bg-transparent font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary';
+                input.type = 'text';
+                input.name = 'sub_titles[]';
+                input.placeholder = 'Subtitle';
+
+                const removeButton = document.createElement('button');
+                removeButton.type = 'button';
+                removeButton.className = 'remove-subtitle-button bg-danger text-white p-2 rounded ml-2';
+                removeButton.textContent = 'Remove';
+                removeButton.onclick = function() {
+                    removeSubtitleInput(inputWrapper);
+                };
+
+                inputWrapper.appendChild(input);
+                inputWrapper.appendChild(removeButton);
+                container.appendChild(inputWrapper);
+            } else {
+                alert('You can only have up to 5 subtitle rows.');
+            }
         }
+
 
         function removeSubtitleInput(inputWrapper) {
             const container = document.getElementById('subtitle-container');
@@ -150,7 +166,7 @@
             if (input.value) {
                 // You can handle this case, for example, by marking the subtitle for deletion in the backend.
                 // Here, we'll add a data attribute to the input to flag it as "to be removed".
-                input.setAttribute('data-delete-subtitle', 'true');
+                container.removeChild(inputWrapper);
             } else {
                 // If the input has no value (newly added subtitle), just remove it from the DOM.
                 container.removeChild(inputWrapper);
