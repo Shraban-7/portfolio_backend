@@ -118,4 +118,11 @@ class HeroController extends Controller
         $hero->subtitles()->sync($subTitleIds);
     }
 
+    public function deleteSubtitle($id)
+    {
+        $subTitle= HeroSubTitle::findOrFail($id);
+        $subTitle->delete();
+        return redirect()->route('hero.edit')->with('waring','subtitle delete permanently');
+    }
+
 }

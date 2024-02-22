@@ -58,9 +58,14 @@
                             </div>
                         </div>
                         <div>
+
                             <button type="submit"
                                 class="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                                Submit
+                                @if ($about)
+                                    Update
+                                @else
+                                    ok
+                                @endif
                             </button>
                         </div>
                     </form>

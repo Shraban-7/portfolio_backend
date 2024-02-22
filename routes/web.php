@@ -74,7 +74,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('hero/store/',[HeroController::class,'store'])->name('hero.store');
     Route::get('hero/data',[HeroController::class,'edit'])->name('hero.edit');
     Route::post('hero/update',[HeroController::class,'update'])->name('hero.update');
-    Route::get('hero/delete/{hero}',[HeroController::class,'destroy'])->name('hero.delete');
+    Route::get('hero/delete/{hero}',[HeroController::class,'deleteSubtitle'])->name('subtitle.delete');
     // about
     // Route::get('about/manage/',[AboutController::class,'index'])->name('about.manage');
     // Route::post('about/store/',[AboutController::class,'store'])->name('about.store');
@@ -132,7 +132,7 @@ Route::middleware(['auth'])->group(function () {
      Route::get('user/create/',[UserController::class,'create'])->name('user.create');
      Route::post('user/store/',[UserController::class,'store'])->name('user.store');
      Route::get('user/status/{user}',[UserController::class,'is_active'])->name('user.status');
-     
+
 });
 
 Route::middleware('auth')->group(function () {

@@ -91,9 +91,13 @@
                         </div>
                         <div>
                             <button type="submit"
-                                class="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                            class="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                            @if ($personal_info)
+                                Update
+                            @else
                                 Submit
-                            </button>
+                            @endif
+                        </button>
                         </div>
                     </form>
                 </div>

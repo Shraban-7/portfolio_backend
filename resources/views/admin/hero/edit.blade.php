@@ -25,7 +25,7 @@
                         @csrf
                         <div class="mb-4">
                             <label for="name" class="mb-3 text-gray-700 block font-medium  text-black dark:text-white">
-                                Title</label>
+                                Your Name</label>
                             <input type="text" id="name" name="title" value="{{ old('title', $hero?->title) }}"
                                 class="w-full px-4 py-2  border-stroke bg-transparent  font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 required placeholder="I Am User">
@@ -43,10 +43,11 @@
                                                 <input type="text"
                                                     class="w-full px-4 py-2 border-stroke bg-transparent font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                     name="sub_titles[]" placeholder="Subtitle {{ $index + 1 }}"
-                                                    value="{{ $subtitle->sub_title }}" required>
-                                                <button type="button"
-                                                    class="remove-subtitle-button bg-danger text-white p-2 rounded ml-2"
-                                                    onclick="removeSubtitleInput(this)">Remove</button>
+                                                    value="{{ $subtitle->sub_title }}" attr="{{ $subtitle->id }}" required>
+                                                <a href="#"
+                                                    onclick="confirmDelete('{{ route('subtitle.delete', $subtitle->id) }}')"
+                                                    type="button"
+                                                    class="remove-subtitle-button bg-danger text-white p-2 rounded ml-2">Remove</a>
                                             </div>
                                         @endforeach
                                     @else
@@ -77,19 +78,32 @@
                         <div class="mb-4">
                             <label for="image"
                                 class="mb-3 text-gray-700 block font-medium text-black dark:text-white">Image</label>
+                            @if ($hero)
                             <input type="file" id="image" name="image" accept="image/*"
-                                onchange="previewImage(this)"
-                                class="w-full px-4 py-2 border-stroke bg-transparent font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                            onchange="previewImage(this)"
+                            class="w-full px-4 py-2 border-stroke bg-transparent font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                            @else
+                            <input type="file" id="image" name="image" accept="image/*"
+                            onchange="previewImage(this)"
+                            class="w-full px-4 py-2 border-stroke bg-transparent font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" required>
+                            @endif
                             <div class="mt-2">
                                 <img id="image-preview" class="hidden w-16 h-16 rounded-full object-cover"
                                     alt="Image Preview">
                             </div>
                         </div>
                         <div>
-                            <button type="submit"
-                                class="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                                Submit
-                            </button>
+                            @if ($hero)
+                                <button type="submit"
+                                    class="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                                    Update
+                                </button>
+                            @else
+                                <button type="submit"
+                                    class="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                                    Submit
+                                </button>
+                            @endif
                         </div>
                     </form>
                 </div>
@@ -172,5 +186,37 @@
                 container.removeChild(inputWrapper);
             }
         }
+
+        function confirmDelete(deleteUrl) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the delete URL if confirmed
+                    window.location.href = deleteUrl;
+                }
+            });
+        }
+
+
+        // function removeValuedSubtitleInput(inputWrapper) {
+        //     const container = document.getElementById('subtitle-container');
+        //     const input = inputWrapper.previousElementSibling; // assuming the input is the previous sibling
+
+        //     // Use getAttribute to access custom attribute 'attr'
+        //     const subtitleId = input.getAttribute('attr');
+        //     console.log(subtitleId);
+
+        //     // You can now use subtitleId for further processing, such as marking it for deletion in the backend.
+
+        //     // Remove the input wrapper from the container
+        //     container.removeChild(inputWrapper);
+        // }
     </script>
 @endsection

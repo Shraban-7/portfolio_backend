@@ -26,9 +26,14 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
 
-        $user= User::where('email',$request->email)->first();
-        if ($user->status != 1) {
-            return redirect('/login')->with('error', 'Your account not active yet');
+        $user = User::where('email', $request->email)->first();
+        // return $user->status;
+
+        if ($user) {
+
+            if ($user->status === 0) {
+                return redirect('/login')->with('error', 'Your account not active yet');
+            }
         }
         $request->authenticate();
 

@@ -48,14 +48,28 @@
                             </textarea>
                         </div> --}}
 
-
-
+                        <div class="mb-2">
+                            <img class="w-16 h-16 rounded-full object-cover" alt="Image"
+                                src="{{ asset('cv/' . ($service ? $service->image : '')) }}">
+                        </div>
                         <div class="mb-4">
                             <label for="image"
-                                class="mb-3 text-gray-700 block font-medium text-black dark:text-white">Service Icon</label>
-                            <input type="text" id="image" name="image" placeholder="Ex: 'ion-code-working'" value="{{ old('image',$service->image) }}"
+                                class="mb-3 text-gray-700 block font-medium text-black dark:text-white">Image</label>
+                            <input type="file" id="image" name="image" accept="image/*"
+                                onchange="previewImage(this)"
                                 class="w-full px-4 py-2 border-stroke bg-transparent font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                            <small>Choose your service icon class name <a target="_blank" class="text-blue-600"
+                            <div class="mt-2">
+                                <img id="image-preview" class="hidden w-16 h-16 rounded-full object-cover"
+                                    alt="Image Preview">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="icon"
+                                class="mb-3 text-gray-700 block font-medium text-black dark:text-white">Service Icon</label>
+                            <input type="text" id="icon" name="icon" placeholder="Ex: 'ion-code-working'" value="{{ old('icon',$service->icon) }}"
+                                class="w-full px-4 py-2 border-stroke bg-transparent font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter rounded border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                            <small>Choose your service icon class name <a target="_blank" class="text-primary"
                                     href="https://ionic.io/ionicons/v2">Go here..</a></small>
                         </div>
 
@@ -84,7 +98,7 @@
                         <div>
                             <button type="submit"
                                 class="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                                Submit
+                                Update
                             </button>
                         </div>
                     </form>

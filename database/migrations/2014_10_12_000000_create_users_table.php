@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('user_name')->unique();
             $table->string('password');
             $table->enum('role',['admin','moderator','client'])->default('client');
-            $table->boolean('status')->default('1');
+            $table->boolean('status')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

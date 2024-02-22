@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ServiceController extends Controller
 {
@@ -49,33 +51,37 @@ class ServiceController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            // 'image' => 'required|mimes:png,jpg,jpeg,svg,gif,webp,avif,apng',
-            'image' => 'required',
+            'image' => 'required|mimes:png,jpg,jpeg,svg,gif,webp,avif,apng',
+            'icon' => 'required',
         ]);
 
-        // $image = $request->file('image');
-        // if ($image) {
-        //     $manager = new ImageManager(new Driver());
-        //     $name = hexdec(uniqid()) . '-' . $image->getClientOriginalName();
-        //     $uploadpath = 'uploads/image/service/';
-        //     $image4Url = $uploadpath . $name;
-        //     $img = $manager->read($image->getRealPath());
-        //     $img = $img->resize(370, 246);
-        //     $img->toWebp(75)->save($image4Url);
+        $image = $request->file('image');
+        if ($image) {
+            $manager = new ImageManager(new Driver());
+            $name = hexdec(uniqid()) . '-' . $image->getClientOriginalName();
+            $uploadpath = 'uploads/image/service/';
+            $uploadpath1 = 'cv/uploads/image/service/';
 
-        // }
+            $image4Url = $uploadpath . $name;
+            $imageUrl = $uploadpath1 . $name;
+            $img = $manager->read($image->getRealPath());
+            // $img = $img->resize(370, 246);
+            $img->toWebp(100)->save($imageUrl);
+
+        }
 
         Service::create([
             'user_id' => $this->user_id,
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $request->image,
+            'image' => $image4Url,
+            'icon' => $request->icon,
             'meta_title' => $request->meta_title,
             'meta_tag' => $request->meta_tag,
             'meta_desc' => $request->meta_desc,
         ]);
 
-        return redirect()->back()->with('success', 'service save successfully');
+        return redirect()->route('service.manage')->with('success', 'service save successfully');
     }
 
     /**
@@ -111,45 +117,56 @@ class ServiceController extends Controller
     {
         $service = Service::findOrFail($id);
 
+
+
         $request->validate([
             'title' => 'nullable',
             'description' => 'nullable',
             // 'image' => 'nullable|mimes:png,jpg,jpeg,svg,gif,webp,avif,apng',
-            'image' => 'nullable',
+            'icon' => 'nullable',
         ]);
 
         // $old_img = $service->image;
+        $old_img = 'cv/'. $service->image;
 
-        // $image = $request->file('image');
-        // if ($image) {
+        $image = $request->file('image');
+        if ($image) {
 
-        //     if ($old_img) {
-        //         $oldImagePath = public_path($old_img);
-        //         if (file_exists($oldImagePath)) {
-        //             File::delete($service->image);
-        //         }
-        //     }
-        //     $manager = new ImageManager(new Driver());
-        //     $name = hexdec(uniqid()) . '-' . $image->getClientOriginalName();
-        //     $uploadpath = 'uploads/image/service/';
-        //     $imageUrl = $uploadpath . $name;
-        //     $img = $manager->read($image->getRealPath());
-        //     $img = $img->resize(370, 246);
-        //     $img->toWebp(75)->save($imageUrl);
-        //     $service->image = $imageUrl;
-        // }
+            if ($old_img) {
+                $oldImagePath = public_path($old_img);
+                if (file_exists($oldImagePath)) {
+                    File::delete($service->image);
+                }
+            }
+            $manager = new ImageManager(new Driver());
+            $name = hexdec(uniqid()) . '-' . $image->getClientOriginalName();
+            $uploadpath = 'uploads/image/service/';
+            $uploadpath1 = 'cv/uploads/image/service/';
+            $image4Url = $uploadpath . $name;
+            $imageUrl = $uploadpath1 . $name;
+            $img = $manager->read($image->getRealPath());
+            // $img = $img->resize(370, 246);
+            $img->toWebp(75)->save($imageUrl);
+            $service->image = $image4Url;
+        }
+        else{
+            $image4Url=$service->image;
+        }
+
+        // return $image4Url;
 
         $service->update([
             'user_id' => $this->user_id,
             'title' => $request->title,
-            'image' => $request->image,
+            'image' => $image4Url,
+            'icon' => $request->icon,
             'description' => $request->description,
             'meta_title' => $request->meta_title,
             'meta_tag' => $request->meta_tag,
             'meta_desc' => $request->meta_desc,
         ]);
 
-        return redirect()->route('service.manage')->with('success', 'service update successfully');
+        return redirect()->back()->with('success', 'service update successfully');
     }
 
     /**
@@ -158,7 +175,8 @@ class ServiceController extends Controller
     public function destroy(string $id)
     {
         $service = Service::findOrFail($id);
-        File::delete($service->image);
+
+        File::delete(asset('cv/'.$service->image));
         $service->delete();
         return redirect()->route('service.manage')->with('warning', 'service delete permanently');
     }
